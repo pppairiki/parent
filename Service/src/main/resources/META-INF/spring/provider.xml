@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd"
+       default-lazy-init="false">
+
+    <dubbo:application name="dubbo-provider"></dubbo:application>
+    <dubbo:registry protocol="zookeeper" address="127.0.0.1:12181,127.0.0.1:12182,127.0.0.1:12183" />
+    <dubbo:protocol name="dubbo" port="28880" />
+    <!-- ?????????? -->
+    <dubbo:service interface="com.pourtoujours.api.IUserService" ref="userServiceImpl" cluster="failover"  loadbalance="random"/>
+    <!-- ????????????? -->
+    <context:component-scan base-package="com.pourtoujours"/>
+    <beans>
+        <!--import another applicationcontecxt.xml -->
+        <!--notice: the import block must in front of all the bean-->
+        <import resource="mybatisconfig.xml"/>
+        <bean id= "baseDao" class="com.pourtoujours.dao.BaseDao" />
+        <bean id= "userServiceImpl" class="com.pourtoujours.impl.UserServiceImpl" />
+    </beans>
+
+    <!--&lt;!&ndash; ?????? &ndash;&gt;
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties" />
+    </bean>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${driver}" />
+        <property name="url" value="jdbc:mysql://47.94.204.178:3306/cc_oa" />
+        <property name="username" value="${username}" />
+        <property name="password" value="${password}" />
+        &lt;!&ndash; ??????? &ndash;&gt;
+        <property name="initialSize" value="${initialSize}"></property>
+        &lt;!&ndash; ??????? &ndash;&gt;
+        <property name="maxActive" value="${maxActive}"></property>
+        &lt;!&ndash; ??????? &ndash;&gt;
+        <property name="maxIdle" value="${maxIdle}"></property>
+        &lt;!&ndash; ??????? &ndash;&gt;
+        <property name="minIdle" value="${minIdle}"></property>
+        &lt;!&ndash; ?????????? &ndash;&gt;
+        <property name="maxWait" value="${maxWait}"></property>
+    </bean>
+    &lt;!&ndash; spring?MyBatis????????mybatis??????? &ndash;&gt;
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        &lt;!&ndash; ????mapping.xml?? &ndash;&gt;
+        <property name="mapperLocations" value="classpath:mapping/*.xml"></property>
+        <property name="configurationProperties">
+            <props>
+                <prop key="cacheEnabled">true</prop>
+                <prop key="lazyLoadingEnabled">false</prop>
+                <prop key="aggressiveLazyLoading">true</prop>
+            </props>
+        </property>
+    </bean>
+    &lt;!&ndash; DAO???????Spring????????? &ndash;&gt;
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.pourtoujours.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+    &lt;!&ndash; (????)transaction manager, use JtaTransactionManager for global tx &ndash;&gt;
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager" />-->
+</beans>

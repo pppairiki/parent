@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--    <script type="text/javascript" src="login.js"></script>-->
+</head>
+
+<body>
+<div id="login_frame">
+
+    <p id="image_logo"><img src="images/login/login.jpg"></p>
+
+    <form method="post" action="login.js">
+
+        <p><label class="label_input">Account</label><input type="text" id="username" class="text_field"/></p>
+        <p><label class="label_input">Password</label><input type="password" id="password" class="text_field"/></p>
+
+        <div id="login_control">
+            <input type="button" id="btn_login" value="Login" onclick="login();"/>
+            <input type="button" id="btn_signup" value="Sign Up" onclick="signup();"/>
+            <a id="forget_pwd" href="forget_pwd.html">forgot password？</a>
+        </div>
+    </form>
+</div>
+
+</body>
+<script src="js/tools.js"></script>
+<script type="text/javascript" src="js/md5.js"></script>
+<script type="text/javascript">
+    window.tools = new Tools();
+    function login() {
+        var username = document.getElementById("username").value;
+        var pass = document.getElementById("password").value;
+        if (username == "") {
+            alert("please type in accout");
+        } else if (pass  == "") {
+            alert("please type in password");
+        }
+        console.log(username);
+        console.log(pass);
+        var data =  new Object();
+        data.account = username;
+        data.password = hex_md5(pass);
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            url : "doLogin",
+            data : JSON.stringify(data),
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                var retCode = data.retCode;
+                if(retCode == 0){
+                    tools.setStorage("ccUserInfo",data.user)
+                    tools.setStorage(data.user.id+"_token",data.token)
+                    parent.window.location="index.html";
+                }else{
+                    alert(data.retMsg);
+                }
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+                display(e);
+            },
+            done : function(e) {
+                console.log("DONE");
+            }
+        });
+    }
+
+    function signup(){
+        parent.window.location="signup.html";
+    }
+</script>
+</html>

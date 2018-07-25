@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--    <script type="text/javascript" src="login.js"></script>-->
+</head>
+
+<body>
+<div id="login_frame">
+
+    <p id="image_logo"><img src="images/login/login.jpg"></p>
+
+    <form method="post" action="login.js">
+
+        <p><label class="label_input">Name</label><input type="text" id="name" class="text_field"/></p>
+        <p><label class="label_input">Account</label><input type="text" id="account" class="text_field"/></p>
+        <p><label class="label_input">Password</label><input type="password" id="password" class="text_field"/></p>
+
+        <div id="login_control">
+            <input type="button" id="btn_signup" value="Sign Up" onclick="signup();"/>
+        </div>
+    </form>
+</div>
+
+</body>
+<script type="text/javascript" src="js/md5.js"></script>
+<script type="text/javascript">
+    function signup() {
+        var name = document.getElementById("name").value;
+        var account = document.getElementById("account").value;
+        var password = document.getElementById("password").value;
+        if (name == "") {
+            alert("please type in name");
+        } else if (account  == "") {
+            alert("please type in account");
+        } else if (password  == "") {
+            alert("please type in password");
+        }
+        var data =  new Object();
+        data.name = name;
+        data.account = account;
+        data.password = hex_md5(password);
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            url : "doSignUp",
+            data : JSON.stringify(data),
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+                parent.window.location="login.html";
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+                display(e);
+            },
+            done : function(e) {
+                console.log("DONE");
+            }
+        });
+    }
+</script>
+</html>
