@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:redis="http://www.springframework.org/schema/redis"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-3.1.xsd
+          http://www.springframework.org/schema/redis
+          http://www.springframework.org/schema/redis/spring-redis-1.0.xsd
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+<!-- reference properties fonfig file -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:redis.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- jedis config -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig" >
+        <property name="maxIdle" value="${redis.maxIdle}" />
+        <property name="maxWaitMillis" value="${redis.maxWait}" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+    </bean >
+    <!-- redis server center -->
+    <bean id="connectionFactory"  class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" >
+        <property name="poolConfig" ref="poolConfig" />
+        <property name="port" value="${redis.port}" />
+        <property name="hostName" value="${redis.host}" />
+        <property name="password" value="${redis.password}" />
+        <property name="timeout" value="${redis.timeout}" ></property>
+    </bean >
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" >
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="keySerializer" >
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="valueSerializer" >
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        </property>
+    </bean >
+
+    <!-- cache config -->
+    <bean id="methodCacheInterceptor" class="com.mucfc.msm.common.MethodCacheInterceptor" >
+        <property name="redisUtil" ref="redisUtil" />
+    </bean >
+    <bean id="redisUtil" class="com.mucfc.msm.common.RedisUtil" >
+        <property name="redisTemplate" ref="redisTemplate" />
+    </bean >
+</beans>
