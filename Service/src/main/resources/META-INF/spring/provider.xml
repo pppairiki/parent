@@ -25,6 +25,7 @@
         <!--import another applicationcontecxt.xml -->
         <!--notice: the import block must in front of all the bean-->
         <import resource="mybatisconfig.xml"/>
+        <import resource="redis-cluster.xml"/>
         <bean id= "baseDao" class="com.pourtoujours.dao.BaseDao" />
         <bean id= "userServiceImpl" class="com.pourtoujours.impl.UserServiceImpl" />
     </beans>
