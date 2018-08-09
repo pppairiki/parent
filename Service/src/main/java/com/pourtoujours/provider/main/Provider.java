@@ -3,6 +3,7 @@ package com.pourtoujours.provider.main;
 import com.pourtoujours.dao.BaseDao;
 import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.redis.core.RedisTemplate;
 
 public class Provider {
     public static Logger log = Logger.getLogger(Provider.class);
@@ -27,5 +28,10 @@ public class Provider {
     public static BaseDao getBaseDao() {
         log.debug("baseDao run!");
         return (BaseDao) singleton().getBean("baseDao");
+    }
+
+    public static RedisTemplate getRedisTemplate(){
+        log.debug("getJdisCluster run!");
+        return (RedisTemplate) singleton().getBean("clusterRedisTemplate");
     }
 }

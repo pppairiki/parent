@@ -12,7 +12,11 @@
                             http://www.springframework.org/schema/context/spring-context-4.0.xsd
                             http://www.springframework.org/schema/mvc
                             http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
-
+    <context:component-scan base-package="com.spring.demo.redis" />
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:redis-cluster.properties" />
+    </bean>
     <bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
         <property name="maxRedirects" value="${redis.maxRedirects}"></property>
         <property name="clusterNodes">
@@ -44,7 +48,13 @@
             </set>
         </property>
     </bean>
-
+    <!-- ReDis ConnectionFactory -->
+    <bean id="redis4CacheConnectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg name="clusterConfig" ref="redisClusterConfiguration" />
+        <property name="timeout" value="${redis.timeout}" />
+        <property name="poolConfig" ref="jedisPoolConfig" />
+    </bean>
 
     <bean id="jedisPoolConfig"   class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxTotal" value="${redis.maxTotal}" />
@@ -53,28 +63,17 @@
         <property name="testOnBorrow" value="${redis.testOnBorrow}" />
     </bean>
 
-    <bean id="jeidsConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"  >
+    <!-- 存储序列化 -->
+    <bean name="stringRedisSerializer"
+          class="org.springframework.data.redis.serializer.StringRedisSerializer" />
 
-        <property name="poolConfig" ref="jedisPoolConfig" />
-        <constructor-arg name="clusterConfig" ref="redisClusterConfiguration"/>
-        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
-        <!-- <property name="timeout" value="${redis.timeout}" /> -->
-    </bean>
-
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
-        <property name="connectionFactory" ref="jeidsConnectionFactory" />
-        <property name="keySerializer" >
-            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-        </property>
-        <property name="valueSerializer" >
-            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
-        </property>
-        <property name="hashKeySerializer">
-            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
-        </property>
-        <property name="hashValueSerializer">
-            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
-        </property>
+    <!-- 集群Resis使用模板 -->
+    <bean id="clusterRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="redis4CacheConnectionFactory" />
+        <property name="keySerializer" ref="stringRedisSerializer" />
+        <property name="hashKeySerializer" ref="stringRedisSerializer" />
+        <property name="valueSerializer" ref="stringRedisSerializer" />
+        <property name="hashValueSerializer" ref="stringRedisSerializer" />
     </bean>
 
 </beans>
