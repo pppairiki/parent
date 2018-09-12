@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pourtoujours.dao.FileIndexMapper">
+  <resultMap id="BaseResultMap" type="com.pourtoujours.model.FileIndex">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="fileType" jdbcType="INTEGER" property="filetype" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="createrId" jdbcType="INTEGER" property="createrid" />
+    <result column="createName" jdbcType="VARCHAR" property="createname" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="visable" jdbcType="INTEGER" property="visable" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, fileType, title, summary, createrId, createName, url, visable, remark, createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_file_index
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_file_index
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pourtoujours.model.FileIndex">
+    insert into t_file_index (id, fileType, title, 
+      summary, createrId, createName, 
+      url, visable, remark, 
+      createTime)
+    values (#{id,jdbcType=INTEGER}, #{filetype,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{summary,jdbcType=VARCHAR}, #{createrid,jdbcType=INTEGER}, #{createname,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{visable,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pourtoujours.model.FileIndex">
+    insert into t_file_index
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="filetype != null">
+        fileType,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="createrid != null">
+        createrId,
+      </if>
+      <if test="createname != null">
+        createName,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="visable != null">
+        visable,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="filetype != null">
+        #{filetype,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="createrid != null">
+        #{createrid,jdbcType=INTEGER},
+      </if>
+      <if test="createname != null">
+        #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="visable != null">
+        #{visable,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pourtoujours.model.FileIndex">
+    update t_file_index
+    <set>
+      <if test="filetype != null">
+        fileType = #{filetype,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="createrid != null">
+        createrId = #{createrid,jdbcType=INTEGER},
+      </if>
+      <if test="createname != null">
+        createName = #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="visable != null">
+        visable = #{visable,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pourtoujours.model.FileIndex">
+    update t_file_index
+    set fileType = #{filetype,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      createrId = #{createrid,jdbcType=INTEGER},
+      createName = #{createname,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      visable = #{visable,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -12,11 +12,6 @@
                             http://www.springframework.org/schema/context/spring-context-4.0.xsd
                             http://www.springframework.org/schema/mvc
                             http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
-    <context:component-scan base-package="com.spring.demo.redis" />
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:redis-cluster.properties" />
-    </bean>
     <bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
         <property name="maxRedirects" value="${redis.maxRedirects}"></property>
         <property name="clusterNodes">
@@ -66,14 +61,16 @@
     <!-- 存储序列化 -->
     <bean name="stringRedisSerializer"
           class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+    <bean name="byteRedisSerializer"
+          class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
 
     <!-- 集群Resis使用模板 -->
     <bean id="clusterRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
         <property name="connectionFactory" ref="redis4CacheConnectionFactory" />
         <property name="keySerializer" ref="stringRedisSerializer" />
         <property name="hashKeySerializer" ref="stringRedisSerializer" />
-        <property name="valueSerializer" ref="stringRedisSerializer" />
-        <property name="hashValueSerializer" ref="stringRedisSerializer" />
+        <property name="valueSerializer" ref="byteRedisSerializer" />
+        <property name="hashValueSerializer" ref="byteRedisSerializer" />
     </bean>
 
 </beans>

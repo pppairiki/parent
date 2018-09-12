@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pourtoujours.dao.UserGroupRelationMapper">
-  <resultMap id="BaseResultMap" type="com.pourtoujours.model.UserGroupRelation">
+<mapper namespace="com.pourtoujours.dao.GalleryMapper">
+  <resultMap id="BaseResultMap" type="com.pourtoujours.model.Gallery">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="UserId" jdbcType="INTEGER" property="Userid" />
-    <result column="UserGroupId" jdbcType="INTEGER" property="Usergroupid" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="createrId" jdbcType="INTEGER" property="createrid" />
+    <result column="createName" jdbcType="VARCHAR" property="createname" />
     <result column="visable" jdbcType="INTEGER" property="visable" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, UserId, UserGroupId, visable, remark, createTime
+    id, name, summary, createrId, createName, visable, remark, createTime
   </sql>
+  <select id="getAllList"  resultMap="BaseResultMap" >
+    select * from t_gallery
+  </select>
+  <select id="getList" resultMap="BaseResultMap" >
+    select * from t_gallery where createrId = #{createrId}
+    limit ${startIndex},${amount}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_user_group_relation
+    from t_gallery
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_user_group_relation
+    delete from t_gallery
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.pourtoujours.model.UserGroupRelation">
-    insert into t_user_group_relation (id, name, UserId,
-      UserGroupId, visable, remark,
-      createTime)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{Userid,jdbcType=INTEGER},
-      #{Usergroupid,jdbcType=INTEGER}, #{visable,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
-      #{createtime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.pourtoujours.model.Gallery">
+    insert into t_gallery (id, name, summary, 
+      createrId, createName, visable, 
+      remark, createTime)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
+      #{createrid,jdbcType=INTEGER}, #{createname,jdbcType=VARCHAR}, #{visable,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.pourtoujours.model.UserGroupRelation">
-    insert into t_user_group_relation
+  <insert id="insertSelective" parameterType="com.pourtoujours.model.Gallery">
+    insert into t_gallery
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -40,11 +48,14 @@
       <if test="name != null">
         name,
       </if>
-      <if test="Userid != null">
-        UserId,
+      <if test="summary != null">
+        summary,
       </if>
-      <if test="Usergroupid != null">
-        UserGroupId,
+      <if test="createrid != null">
+        createrId,
+      </if>
+      <if test="createname != null">
+        createName,
       </if>
       <if test="visable != null">
         visable,
@@ -63,11 +74,14 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="Userid != null">
-        #{Userid,jdbcType=INTEGER},
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
       </if>
-      <if test="Usergroupid != null">
-        #{Usergroupid,jdbcType=INTEGER},
+      <if test="createrid != null">
+        #{createrid,jdbcType=INTEGER},
+      </if>
+      <if test="createname != null">
+        #{createname,jdbcType=VARCHAR},
       </if>
       <if test="visable != null">
         #{visable,jdbcType=INTEGER},
@@ -80,17 +94,20 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pourtoujours.model.UserGroupRelation">
-    update t_user_group_relation
+  <update id="updateByPrimaryKeySelective" parameterType="com.pourtoujours.model.Gallery">
+    update t_gallery
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="Userid != null">
-        UserId = #{Userid,jdbcType=INTEGER},
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
       </if>
-      <if test="Usergroupid != null">
-        UserGroupId = #{Usergroupid,jdbcType=INTEGER},
+      <if test="createrid != null">
+        createrId = #{createrid,jdbcType=INTEGER},
+      </if>
+      <if test="createname != null">
+        createName = #{createname,jdbcType=VARCHAR},
       </if>
       <if test="visable != null">
         visable = #{visable,jdbcType=INTEGER},
@@ -104,11 +121,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pourtoujours.model.UserGroupRelation">
-    update t_user_group_relation
+  <update id="updateByPrimaryKey" parameterType="com.pourtoujours.model.Gallery">
+    update t_gallery
     set name = #{name,jdbcType=VARCHAR},
-      UserId = #{Userid,jdbcType=INTEGER},
-      UserGroupId = #{Usergroupid,jdbcType=INTEGER},
+      summary = #{summary,jdbcType=VARCHAR},
+      createrId = #{createrid,jdbcType=INTEGER},
+      createName = #{createname,jdbcType=VARCHAR},
       visable = #{visable,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP}

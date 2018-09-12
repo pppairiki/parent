@@ -12,15 +12,11 @@
        default-lazy-init="false">
 
     <context:component-scan base-package="com.pourtoujours"/>
-    <!-- ?????? -->
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:jdbc.properties" />
-    </bean>
+
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="${driver}" />
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/cc_oa" />
+        <property name="url" value="${url}" />
         <property name="username" value="${username}" />
         <property name="password" value="${password}" />
         <!-- ??????? -->

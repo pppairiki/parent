@@ -1,23 +1,21 @@
-package com.pourtoujours.provider.main;
+package com.pourtoujours.base;
 
+import com.alibaba.dubbo.config.spring.ServiceBean;
 import com.pourtoujours.dao.BaseDao;
 import org.apache.log4j.Logger;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class Provider {
     public static Logger log = Logger.getLogger(Provider.class);
-    static volatile ClassPathXmlApplicationContext context = null;
 
-    public static ClassPathXmlApplicationContext singleton() {
+    private  static ApplicationContext context=ServiceBean.getSpringContext();
+    public static ApplicationContext singleton() {
         log.debug("singleton run start!");
         if (context == null) {
             synchronized (Provider.class) {
                 if (context == null) {
-                    log.debug("context is null");
-                    context = new ClassPathXmlApplicationContext(new String[] { "classpath:/META-INF/spring/provider.xml" });
-                    log.debug("new context by consumer.xml");
-                    context.start();
+                    context=ServiceBean.getSpringContext();
                 }
             }
         }

@@ -35,7 +35,7 @@
   </delete>
   <insert id="insert" parameterType="com.pourtoujours.model.User"
           useGeneratedKeys="true" keyProperty="id">
-    insert into t_user (id, account, password, 
+    insert into t_user (id, account, password,
       name, sex, visable, 
       phone, idCard, email, 
       remark, createTime)

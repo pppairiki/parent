@@ -22,7 +22,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.pourtoujours.model.UserGroup">
-    insert into t_user_group (id, name, visable, 
+    insert into t_user_group (id, name, visable,
       remark, createTime)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{visable,jdbcType=BIGINT}, 
       #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})

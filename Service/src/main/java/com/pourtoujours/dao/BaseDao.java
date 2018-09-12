@@ -7,11 +7,14 @@ import javax.annotation.Resource;
 @Component
 public class BaseDao {
     @Resource
-    public UserMapper userDao;
+    public UserMapper UserDao;
 
     @Resource
-    public UserGroupRelationMapper userGroupRelationDao;
+    public UserGroupRelationMapper UserGroupRelationDao;
 
     @Resource
-    public UserRoleRelationMapper userRoleRelationDao;
+    public UserRoleRelationMapper UserRoleRelationDao;
+
+    @Resource
+    public GalleryMapper galleryDao;
 }

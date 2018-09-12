@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pourtoujours.dao.ImageMapper">
+  <resultMap id="BaseResultMap" type="com.pourtoujours.model.Image">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="infoType" jdbcType="INTEGER" property="infotype" />
+    <result column="infoId" jdbcType="INTEGER" property="infoid" />
+    <result column="createrId" jdbcType="INTEGER" property="createrid" />
+    <result column="createrName" jdbcType="VARCHAR" property="creatername" />
+    <result column="visable" jdbcType="BIGINT" property="visable" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, infoType, infoId, createrId, createrName, visable, remark, createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_image
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_image
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pourtoujours.model.Image">
+    insert into t_image (id, infoType, infoId, 
+      createrId, createrName, visable, 
+      remark, createTime)
+    values (#{id,jdbcType=INTEGER}, #{infotype,jdbcType=INTEGER}, #{infoid,jdbcType=INTEGER}, 
+      #{createrid,jdbcType=INTEGER}, #{creatername,jdbcType=VARCHAR}, #{visable,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pourtoujours.model.Image">
+    insert into t_image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="infotype != null">
+        infoType,
+      </if>
+      <if test="infoid != null">
+        infoId,
+      </if>
+      <if test="createrid != null">
+        createrId,
+      </if>
+      <if test="creatername != null">
+        createrName,
+      </if>
+      <if test="visable != null">
+        visable,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="infotype != null">
+        #{infotype,jdbcType=INTEGER},
+      </if>
+      <if test="infoid != null">
+        #{infoid,jdbcType=INTEGER},
+      </if>
+      <if test="createrid != null">
+        #{createrid,jdbcType=INTEGER},
+      </if>
+      <if test="creatername != null">
+        #{creatername,jdbcType=VARCHAR},
+      </if>
+      <if test="visable != null">
+        #{visable,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pourtoujours.model.Image">
+    update t_image
+    <set>
+      <if test="infotype != null">
+        infoType = #{infotype,jdbcType=INTEGER},
+      </if>
+      <if test="infoid != null">
+        infoId = #{infoid,jdbcType=INTEGER},
+      </if>
+      <if test="createrid != null">
+        createrId = #{createrid,jdbcType=INTEGER},
+      </if>
+      <if test="creatername != null">
+        createrName = #{creatername,jdbcType=VARCHAR},
+      </if>
+      <if test="visable != null">
+        visable = #{visable,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pourtoujours.model.Image">
+    update t_image
+    set infoType = #{infotype,jdbcType=INTEGER},
+      infoId = #{infoid,jdbcType=INTEGER},
+      createrId = #{createrid,jdbcType=INTEGER},
+      createrName = #{creatername,jdbcType=VARCHAR},
+      visable = #{visable,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

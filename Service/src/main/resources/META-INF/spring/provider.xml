@@ -13,12 +13,17 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd"
        default-lazy-init="false">
-
+   <!-- <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties,classpath:redis-cluster.properties" />
+    </bean>-->
+    <context:property-placeholder location="classpath:jdbc.properties,classpath:redis-cluster.properties"/>
     <dubbo:application name="dubbo-provider"></dubbo:application>
     <dubbo:registry protocol="zookeeper" address="127.0.0.1:12181,127.0.0.1:12182,127.0.0.1:12183" />
     <dubbo:protocol name="dubbo" port="28880" />
     <!-- ?????????? -->
-    <dubbo:service interface="com.pourtoujours.api.IUserService" ref="userServiceImpl" cluster="failover"  loadbalance="random"/>
+    <dubbo:service interface="com.pourtoujours.api.IUserService" ref="userService" cluster="failover"  loadbalance="random"/>
+    <dubbo:service interface="com.pourtoujours.api.IImageService" ref="imageService" cluster="failover"  loadbalance="random"/>
     <!-- ????????????? -->
     <context:component-scan base-package="com.pourtoujours"/>
     <beans>
@@ -27,7 +32,9 @@
         <import resource="mybatisconfig.xml"/>
         <import resource="redis-cluster.xml"/>
         <bean id= "baseDao" class="com.pourtoujours.dao.BaseDao" />
-        <bean id= "userServiceImpl" class="com.pourtoujours.impl.UserServiceImpl" />
+        <bean id= "initListener" class="com.pourtoujours.base.InitListener" />
+        <bean id= "userService" class="com.pourtoujours.impl.UserServiceImpl" />
+        <bean id= "imageService" class="com.pourtoujours.impl.ImageServiceImpl" />
     </beans>
 
     <!--&lt;!&ndash; ?????? &ndash;&gt;
@@ -39,7 +46,7 @@
           destroy-method="close">
         <property name="driverClassName" value="${driver}" />
         <property name="url" value="jdbc:mysql://47.94.204.178:3306/cc_oa" />
-        <property name="username" value="${username}" />
+        <property name="Username" value="${Username}" />
         <property name="password" value="${password}" />
         &lt;!&ndash; ??????? &ndash;&gt;
         <property name="initialSize" value="${initialSize}"></property>

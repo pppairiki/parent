@@ -1,0 +1,3 @@
+redis 规则：
+1）对象:以hash类型存储，key命名规则：dbname:table:column:column's value
+2）list: list:table
