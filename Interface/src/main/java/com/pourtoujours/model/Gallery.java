@@ -3,14 +3,16 @@ package com.pourtoujours.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UserRoleRelation implements Serializable {
+public class Gallery implements Serializable{
     private Integer id;
 
     private String name;
 
-    private Integer Userid;
+    private String summary;
 
-    private Integer roleid;
+    private Integer createrid;
+
+    private String createname;
 
     private Integer visable;
 
@@ -34,20 +36,28 @@ public class UserRoleRelation implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getUserid() {
-        return Userid;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setUserid(Integer Userid) {
-        this.Userid = Userid;
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
     }
 
-    public Integer getRoleid() {
-        return roleid;
+    public Integer getCreaterid() {
+        return createrid;
     }
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
+    public void setCreaterid(Integer createrid) {
+        this.createrid = createrid;
+    }
+
+    public String getCreatename() {
+        return createname;
+    }
+
+    public void setCreatename(String createname) {
+        this.createname = createname == null ? null : createname.trim();
     }
 
     public Integer getVisable() {

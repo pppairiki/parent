@@ -8,9 +8,9 @@ public class UserGroupRelation implements Serializable {
 
     private String name;
 
-    private Integer userid;
+    private Integer Userid;
 
-    private Integer usergroupid;
+    private Integer Usergroupid;
 
     private Integer visable;
 
@@ -35,19 +35,19 @@ public class UserGroupRelation implements Serializable {
     }
 
     public Integer getUserid() {
-        return userid;
+        return Userid;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserid(Integer Userid) {
+        this.Userid = Userid;
     }
 
     public Integer getUsergroupid() {
-        return usergroupid;
+        return Usergroupid;
     }
 
-    public void setUsergroupid(Integer usergroupid) {
-        this.usergroupid = usergroupid;
+    public void setUsergroupid(Integer Usergroupid) {
+        this.Usergroupid = Usergroupid;
     }
 
     public Integer getVisable() {
