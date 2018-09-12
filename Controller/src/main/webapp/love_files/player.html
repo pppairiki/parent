@@ -48,7 +48,7 @@ ga.src = '//wr.da.netease.com/ga.js';
 var s = document.getElementsByTagName('script')[0];
 s.parentNode.insertBefore(ga, s);
 })();//fix ipad下的一个bug
-if (navigator.userAgent.indexOf('iPad') != -1) {
+if (navigator.UserAgent.indexOf('iPad') != -1) {
 iframeHeight = Math.max(
 Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
 Math.max(document.body.offsetHeight, document.documentElement.offsetHeight),

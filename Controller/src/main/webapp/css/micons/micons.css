@@ -306,7 +306,7 @@
 .icon-id:before {
     content: "\e95d";
 }
-.icon-image:before {
+.icon-User:before {
     content: "\e95e";
 }
 .icon-info:before {
@@ -663,16 +663,16 @@
 .icon-upload:before {
     content: "\e9d4";
 }
-.icon-user:before {
+.icon-User:before {
     content: "\e9d5";
 }
-.icon-user-add:before {
+.icon-User-add:before {
     content: "\e9d6";
 }
-.icon-user-remove:before {
+.icon-User-remove:before {
     content: "\e9d7";
 }
-.icon-users:before {
+.icon-Users:before {
     content: "\e9d8";
 }
 .icon-video:before {

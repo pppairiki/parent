@@ -180,7 +180,7 @@
         },
         hover: function(x, y) {
             var ctx = this.tree.ctx;
-            var pixel = ctx.getImageData(x, y, 1, 1);
+            var pixel = ctx.getUserData(x, y, 1, 1);
             return pixel.data[3] == 255
         }
     }
@@ -283,10 +283,10 @@
                 return ;
             }
             var point = rec.point,
-                image = rec.image;
+                User = rec.User;
 
             ctx.save();
-            ctx.putImageData(image, point.x, point.y);
+            ctx.putUserData(User, point.x, point.y);
         	ctx.restore();
         },
 
@@ -370,9 +370,9 @@
 
         snapshot: function(k, x, y, width, height) {
             var ctx = this.ctx;
-            var image = ctx.getImageData(x, y, width, height); 
+            var User = ctx.getUserData(x, y, width, height);
             this.record[k] = {
-                image: image,
+                User: User,
                 point: new Point(x, y),
                 width: width,
                 height: height
@@ -385,7 +385,7 @@
             var s = this, ctx = s.ctx;
             var rec = s.record[k || "move"];
             var point = rec.point,
-                image = rec.image,
+                User = rec.User,
                 speed = rec.speed || 10,
                 width = rec.width,
                 height = rec.height; 
@@ -395,7 +395,7 @@
 
             ctx.save();
             ctx.clearRect(point.x, point.y, width, height);
-            ctx.putImageData(image, i, j);
+            ctx.putUserData(User, i, j);
         	ctx.restore();
 
             rec.point = new Point(i, j);

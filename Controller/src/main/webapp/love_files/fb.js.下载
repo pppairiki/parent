@@ -19,7 +19,7 @@ else{result=''
 +'hasPriority="false" '
 +'type="application/x-shockwave-flash" >';}
 return result;}
-function checkIE(){var ua=navigator.userAgent;var reg=window['RegExp'];if(/msie (\d+\.\d)/i.test(ua)){return true;}
+function checkIE(){var ua=navigator.UserAgent;var reg=window['RegExp'];if(/msie (\d+\.\d)/i.test(ua)){return true;}
 return false;}
 function checkFlash(){var isIE=checkIE();if(isIE){var swf=new ActiveXObject('ShockwaveFlash.ShockwaveFlash');if(swf){return true;}}else{if(navigator.plugins&&navigator.plugins.length>0&&navigator.plugins["Shockwave Flash"]){return true;}}
 return false;}

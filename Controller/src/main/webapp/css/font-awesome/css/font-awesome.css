@@ -118,31 +118,31 @@
   }
 }
 .fa-rotate-90 {
-  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -ms-filter: "progid:DXUserTransform.Microsoft.BasicUser(rotation=1)";
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 .fa-rotate-180 {
-  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -ms-filter: "progid:DXUserTransform.Microsoft.BasicUser(rotation=2)";
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 .fa-rotate-270 {
-  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -ms-filter: "progid:DXUserTransform.Microsoft.BasicUser(rotation=3)";
   -webkit-transform: rotate(270deg);
   -ms-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 .fa-flip-horizontal {
-  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -ms-filter: "progid:DXUserTransform.Microsoft.BasicUser(rotation=0, mirror=1)";
   -webkit-transform: scale(-1, 1);
   -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 .fa-flip-vertical {
-  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -ms-filter: "progid:DXUserTransform.Microsoft.BasicUser(rotation=2, mirror=1)";
   -webkit-transform: scale(1, -1);
   -ms-transform: scale(1, -1);
   transform: scale(1, -1);
@@ -201,7 +201,7 @@
 .fa-star-o:before {
   content: "\f006";
 }
-.fa-user:before {
+.fa-User:before {
   content: "\f007";
 }
 .fa-film:before {
@@ -363,7 +363,7 @@
   content: "\f03d";
 }
 .fa-photo:before,
-.fa-image:before,
+.fa-User:before,
 .fa-picture-o:before {
   content: "\f03e";
 }
@@ -699,7 +699,7 @@
   content: "\f0b2";
 }
 .fa-group:before,
-.fa-users:before {
+.fa-Users:before {
   content: "\f0c0";
 }
 .fa-chain:before,
@@ -848,7 +848,7 @@
 .fa-cloud-upload:before {
   content: "\f0ee";
 }
-.fa-user-md:before {
+.fa-User-md:before {
   content: "\f0f0";
 }
 .fa-stethoscope:before {
@@ -1471,7 +1471,7 @@
 }
 .fa-file-photo-o:before,
 .fa-file-picture-o:before,
-.fa-file-image-o:before {
+.fa-file-User-o:before {
   content: "\f1c5";
 }
 .fa-file-zip-o:before,
@@ -1732,7 +1732,7 @@
 .fa-ship:before {
   content: "\f21a";
 }
-.fa-user-secret:before {
+.fa-User-secret:before {
   content: "\f21b";
 }
 .fa-motorcycle:before {
@@ -1796,10 +1796,10 @@
 .fa-server:before {
   content: "\f233";
 }
-.fa-user-plus:before {
+.fa-User-plus:before {
   content: "\f234";
 }
-.fa-user-times:before {
+.fa-User-times:before {
   content: "\f235";
 }
 .fa-hotel:before,
@@ -2205,13 +2205,13 @@
 .fa-address-card-o:before {
   content: "\f2bc";
 }
-.fa-user-circle:before {
+.fa-User-circle:before {
   content: "\f2bd";
 }
-.fa-user-circle-o:before {
+.fa-User-circle-o:before {
   content: "\f2be";
 }
-.fa-user-o:before {
+.fa-User-o:before {
   content: "\f2c0";
 }
 .fa-id-badge:before {

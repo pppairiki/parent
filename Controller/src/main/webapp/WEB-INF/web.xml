@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4"
+<!--<web-app version="2.4"
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-        http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+        http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">-->
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         metadata-complete="true">
     <!--<context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -26,6 +30,7 @@
         <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
+
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -42,5 +47,27 @@
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>MVCFilter</filter-name>
+        <filter-class>com.pourtoujours.mvc.MVCFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>MVCFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--<context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>dev</param-value>
+    </context-param>
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>dev</param-value>
+    </context-param>
+    <context-param>
+        <param-name>spring.liveBeansView.mbeanDomain</param-name>
+        <param-value>dev</param-value>
+    </context-param>-->
 
 </web-app>

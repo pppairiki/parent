@@ -20,8 +20,8 @@
 <script src="js/tools.js"></script>
 <script>
     window.tools = new Tools();
-    var userInfo = tools.getStorage("ccUserInfo");
-    if (!userInfo || userInfo == "undefined") {
+    var UserInfo = tools.getStorage("ccUserInfo");
+    if (!UserInfo || UserInfo == "undefined") {
         alert("please login first!")
         parent.window.location="login.html";
     }
@@ -247,7 +247,7 @@
            tree.snapshot("p2", 500, 0, 610, 680);
 
            // 会有闪烁不得意这样做, (＞﹏＜)
-           canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
+           canvas.parent().css("background", "url(" + tree.toDataURL('User/png') + ")");
            canvas.css("background", "#ffe");
            $await(Jscex.Async.sleep(300));
            canvas.css("background", "none");

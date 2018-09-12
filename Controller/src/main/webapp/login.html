@@ -12,11 +12,11 @@
 <body>
 <div id="login_frame">
 
-    <p id="image_logo"><img src="images/login/login.jpg"></p>
+    <p id="User_logo"><img src="users/login/login.jpg"></p>
 
     <form method="post" action="login.js">
 
-        <p><label class="label_input">Account</label><input type="text" id="username" class="text_field"/></p>
+        <p><label class="label_input">Account</label><input type="text" id="Username" class="text_field"/></p>
         <p><label class="label_input">Password</label><input type="password" id="password" class="text_field"/></p>
 
         <div id="login_control">
@@ -33,17 +33,17 @@
 <script type="text/javascript">
     window.tools = new Tools();
     function login() {
-        var username = document.getElementById("username").value;
+        var Username = document.getElementById("Username").value;
         var pass = document.getElementById("password").value;
-        if (username == "") {
+        if (Username == "") {
             alert("please type in accout");
         } else if (pass  == "") {
             alert("please type in password");
         }
-        console.log(username);
+        console.log(Username);
         console.log(pass);
         var data =  new Object();
-        data.account = username;
+        data.account = Username;
         data.password = hex_md5(pass);
         $.ajax({
             type : "POST",
@@ -55,8 +55,8 @@
             success : function(data) {
                 var retCode = data.retCode;
                 if(retCode == 0){
-                    tools.setStorage("ccUserInfo",data.user)
-                    tools.setStorage(data.user.id+"_token",data.token)
+                    tools.setStorage("ccUserInfo",data.User)
+                    tools.setStorage(data.User.id+"_token",data.token)
                     parent.window.location="index.html";
                 }else{
                     alert(data.retMsg);

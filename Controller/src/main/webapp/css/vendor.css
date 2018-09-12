@@ -1241,11 +1241,11 @@ body[data-aos-easing=ease-in-out-quart] [data-aos] {
 .owl-carousel .owl-dot {
   cursor: pointer;
   cursor: hand;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -webkit-User-select: none;
+  -khtml-User-select: none;
+  -moz-User-select: none;
+  -ms-User-select: none;
+  User-select: none;
 }
 
 .owl-carousel.owl-loaded {
@@ -1266,10 +1266,10 @@ body[data-aos-easing=ease-in-out-quart] [data-aos] {
 }
 
 .owl-carousel.owl-drag .owl-item {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -webkit-User-select: none;
+  -moz-User-select: none;
+  -ms-User-select: none;
+  User-select: none;
 }
 
 .owl-carousel.owl-grab {
@@ -1627,9 +1627,9 @@ body[data-aos-easing=ease-in-out-quart] [data-aos] {
 }
 
 
-/* Image */
+/* User */
 
-.lity-image img {
+.lity-User img {
   max-width: 100%;
   display: block;
   line-height: 0;

@@ -1,13 +1,14 @@
 package com.pourtoujours.base;
 
+import com.pourtoujours.api.IImageService;
 import com.pourtoujours.api.IUserService;
-import com.pourtoujours.controller.ControllerLove;
 import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.redis.core.RedisTemplate;
 
 
 public class Consumer {
-    public static Logger log = Logger.getLogger(ControllerLove.class);
+    public static Logger log = Logger.getLogger(Consumer.class);
     static volatile ClassPathXmlApplicationContext context = null;
 
     public static ClassPathXmlApplicationContext singleton() {
@@ -23,6 +24,15 @@ public class Consumer {
             }
         }
         log.debug("singleton run over!");
+       /* log.debug("singleton run start!");
+        if (context == null) {
+            synchronized (Consumer.class) {
+                if (context == null) {
+                    context= ServiceBean.getSpringContext();
+                }
+            }
+        }
+        log.debug("singleton run over!");*/
         return context;
     };
 
@@ -31,4 +41,13 @@ public class Consumer {
         return (IUserService) singleton().getBean("userService");
     }
 
+    public static IImageService getImageService() {
+        log.debug("getImageService run!");
+        return (IImageService) singleton().getBean("imageService");
+    }
+
+    public static RedisTemplate getRedisTemplate(){
+        log.debug("getJdisCluster run!");
+        return (RedisTemplate) singleton().getBean("clusterRedisTemplate");
+    }
 }

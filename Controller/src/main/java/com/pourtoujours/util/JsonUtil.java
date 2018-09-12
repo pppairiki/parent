@@ -41,4 +41,19 @@ public class JsonUtil {
         }
         return null;
     }
+
+    public static int getInt(JsonObject object, String param) {
+        JsonElement obj =  object.get(param);
+        if(obj != null){
+            return object.get(param).getAsInt();
+        }
+        return 0;
+    }
+    public static int getInt(JsonObject object, String param,int defaultValue) {
+        JsonElement obj =  object.get(param);
+        if(obj != null){
+            return object.get(param).getAsInt();
+        }
+        return defaultValue;
+    }
 }

@@ -15,39 +15,41 @@ import java.util.Date;
 public class UserLogicService {
     public static Logger log = Logger.getLogger(UserLogicService.class);
 
-    private static IUserService userService = Consumer.getUserService();
+    private static IUserService UserService = Consumer.getUserService();
 
-    public static int signUp(User userObj) {
+    public static int signUp(User UserObj) {
         log.debug("UserLogicService.signUp run!");
-       return userService.signUp(userObj);
+       return UserService.signUp(UserObj);
     }
 
     public static User getUserById(int id){
-        return userService.getUserById(id);
+        return UserService.getUserById(id);
     }
 
     public static User getUserByAccount(String account){
-        return userService.getUserByAccount(account);
+        return UserService.getUserByAccount(account);
     }
 
     public static JsonObject login(String account, String password) {
         if(StringUtil.isNullOrEmpty(account) || StringUtil.isNullOrEmpty(password)){
             return JsonUtil.newFailureJson("account or password is null!");
         }
-        User userObj = getUserByAccount(account);
-        if(userObj == null){
+        User UserObj = getUserByAccount(account);
+        if(UserObj == null){
             return JsonUtil.newFailureJson("account is not exists!");
         }
-        if (userObj.getPassword().equals(password)) {
+        if (UserObj.getPassword().equals(password)) {
             JsonObject retJson = JsonUtil.newSucessJson("login sucessful!");
-            String token = JWTUtil.getInstance().buildJwt(DateUtils.addHours(new Date(),1),userObj.getId(),userObj.getAccount());
+            String token = JWTUtil.getInstance().buildJwt(DateUtils.addHours(new Date(),1),UserObj.getId(),UserObj.getAccount());
             if (token != null) {
                 retJson.addProperty("token",token);
             }
-            userObj.setPassword("");
-            retJson.add("user",JsonUtil.parseObject2Json(userObj));
+            UserObj.setPassword("");
+            retJson.add("User",JsonUtil.parseObject2Json(UserObj));
+            log.debug("UserLogicService.login retJson:"+retJson.toString());
             return retJson;
         }
+
         return JsonUtil.newFailureJson("password is wrong!");
     }
 

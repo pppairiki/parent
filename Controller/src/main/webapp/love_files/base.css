@@ -71,9 +71,9 @@ button{border:none;outline:none;cursor:pointer;padding:0;margin:0;}
 .f-cd{cursor:default;}
 /*.f-curbig{cursor: url(http://s2.music.126.net/style/web2/img/timeline/big.cur), auto;}*//* 放大镜图标 *//*
 .f-cursml{cursor: url(http://s2.music.126.net/style/web2/img/timeline/small.cur), auto;}*/
-.f-sltnone{-moz-user-select: none; -webkit-user-select: none; -ms-user-select: none;}
+.f-sltnone{-moz-User-select: none; -webkit-User-select: none; -ms-User-select: none;}
 .f-dft, .f-dft *{cursor: default;}
-.f-blank{background-image:url(../img/common/bg_blank.png);}/* 空白背景 */
+.f-blank{background-User:url(../img/common/bg_blank.png);}/* 空白背景 */
 .f-mgt5{margin-top:5px;}
 .f-mgt10{margin-top:10px;}
 .f-mgt20{margin-top:20px;}
@@ -81,7 +81,7 @@ button{border:none;outline:none;cursor:pointer;padding:0;margin:0;}
 .f-mgt40{margin-top:40px;}
 .f-mgl10{margin-left:10px;}
 
-.f-usn{user-select:none;}
+.f-usn{User-select:none;}
 
 .f-oys{overflow-y:scroll;}
 /* Fonts */

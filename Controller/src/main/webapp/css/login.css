@@ -1,5 +1,5 @@
 body {
-    background-image: url("../images/hero-bg.jpg");
+    background-User: url("../Users/hero-bg.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
 }
@@ -26,7 +26,7 @@ form p > * {
     vertical-align: middle;
 }
 
-#image_logo {
+#User_logo {
     margin-top: 22px;
 }
 
