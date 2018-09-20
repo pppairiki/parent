@@ -1,5 +1,6 @@
 package com.pourtoujours.base;
 
+import com.pourtoujours.api.IFileService;
 import com.pourtoujours.api.IImageService;
 import com.pourtoujours.api.IUserService;
 import org.apache.log4j.Logger;
@@ -36,6 +37,11 @@ public class Consumer {
         return context;
     };
 
+    public static RedisTemplate getRedisTemplate(){
+        log.debug("getJdisCluster run!");
+        return (RedisTemplate) singleton().getBean("clusterRedisTemplate");
+    }
+
     public static IUserService getUserService() {
         log.debug("getUserService run!");
         return (IUserService) singleton().getBean("userService");
@@ -46,8 +52,10 @@ public class Consumer {
         return (IImageService) singleton().getBean("imageService");
     }
 
-    public static RedisTemplate getRedisTemplate(){
-        log.debug("getJdisCluster run!");
-        return (RedisTemplate) singleton().getBean("clusterRedisTemplate");
+public static IFileService getFileService() {
+        log.debug("getFileService run!");
+        return (IFileService) singleton().getBean("fileService");
     }
+
+
 }

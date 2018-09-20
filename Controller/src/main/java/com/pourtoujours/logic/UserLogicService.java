@@ -34,18 +34,18 @@ public class UserLogicService {
         if(StringUtil.isNullOrEmpty(account) || StringUtil.isNullOrEmpty(password)){
             return JsonUtil.newFailureJson("account or password is null!");
         }
-        User UserObj = getUserByAccount(account);
-        if(UserObj == null){
+        User userObj = getUserByAccount(account);
+        if(userObj == null){
             return JsonUtil.newFailureJson("account is not exists!");
         }
-        if (UserObj.getPassword().equals(password)) {
+        if (userObj.getPassword().equals(password)) {
             JsonObject retJson = JsonUtil.newSucessJson("login sucessful!");
-            String token = JWTUtil.getInstance().buildJwt(DateUtils.addHours(new Date(),1),UserObj.getId(),UserObj.getAccount());
+            String token = JWTUtil.getInstance().buildJwt(DateUtils.addHours(new Date(),1),userObj.getId(),userObj.getAccount());
             if (token != null) {
                 retJson.addProperty("token",token);
             }
-            UserObj.setPassword("");
-            retJson.add("User",JsonUtil.parseObject2Json(UserObj));
+            userObj.setPassword("");
+            retJson.add("user",JsonUtil.parseObject2Json(userObj));
             log.debug("UserLogicService.login retJson:"+retJson.toString());
             return retJson;
         }

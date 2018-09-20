@@ -17,7 +17,7 @@
    // Add the User Agent to the <html>
    // will be used for IE10 detection (Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0))
 	var doc = document.documentElement;
-	doc.setAttribute('data-Useragent', navigator.UserAgent);
+	doc.setAttribute('data-useragent', navigator.userAgent);
 
 	
 	/* Preloader 
@@ -95,7 +95,7 @@
 	var ssWaypoints = function() {
 
 		var sections = $("section"),
-		navigation_links = $(".header-controller-nav li a");
+		navigation_links = $(".header-main-nav li a");	
 
 		sections.waypoint( {
 
@@ -107,7 +107,7 @@
 
 				if (direction === "up") active_section = active_section.prev();
 
-				var active_link = $('.header-controller-nav li a[href="#' + active_section.attr("id") + '"]');
+				var active_link = $('.header-main-nav li a[href="#' + active_section.attr("id") + '"]');			
 
 	         navigation_links.parent().removeClass("current");
 				active_link.parent().addClass("current");
@@ -196,7 +196,7 @@
 		//  1: 'Please enter a value',
 		//  2: 'An email address must contain a single @',
 		//  3: 'The domain portion of the email address is invalid (the portion after the @: )',
-		//  4: 'The Username portion of the email address is invalid (the portion before the @: )',
+		//  4: 'The username portion of the email address is invalid (the portion before the @: )',
 		//  5: 'This email address looks fake or invalid. Please enter a real email address'
 
 		$.ajaxChimp.translations.es = {

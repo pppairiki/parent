@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>登录</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <style>
+        /*@media (min-width: 768px){
+            .form-group{
+                margin: 0 0 15px 0 !important;
+            }
+            .form-group label{
+                width:100px;
+                text-align: right;
+                margin-top:7px;
+            }
+        }*/
+        html, body{
+            height:100%;
+        }
+        body{
+            position:relative;
+            background-color:#222;
+        }
+        .login-body{
+            width: 340px;
+            padding: 10px 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -65%);
+            -webkit-transform: translate(-50%, -65%);
+            background-color: #fff;
+        }
+        .login-tit{
+            text-align: center;
+            color:#5cb85c;
+            margin: 20px 0 30px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-body">
+        <div class="container-fluid">
+            <div class="row">
+                <h3 class="login-tit">ccpourtoujours</h3>
+            </div>
+            <div class="row">
+                <form class="form" role="form">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+                            <input type="text" class="form-control" id="username" placeholder="请输入用户名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                            <input type="password" class="form-control" id="password" placeholder="请输入密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-block btn-success" onclick="login()" id="btn_login">登录</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/plugins/jquery.min.js"></script>
+    <script src="./js/plugins/bootstrap.min.js"></script>
+    <script src="./js/tools.js?time=12fds"></script>
+    <script src="js/tools.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
+    <script type="text/javascript"></script>
+    <script>
+        var tools = new Tools();
+        function login() {
+            var username = document.getElementById("username").value;
+            var pass = document.getElementById("password").value;
+            if (username == "") {
+                alert("please type in accout");
+            } else if (pass  == "") {
+                alert("please type in password");
+            }
+            console.log(username);
+            console.log(pass);
+            var data =  new Object();
+            data.account = username;
+            data.password = hex_md5(pass);
+            $.ajax({
+                type : "POST",
+                contentType : "application/json",
+                url : "doLogin",
+                data : JSON.stringify(data),
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    var retCode = data.retCode;
+                    if(retCode == 0){
+                        tools.setStorage("ccUserInfo",data.user)
+                        tools.setStorage(data.user.id+"_token",data.token)
+                        parent.window.location="index.html";
+                    }else{
+                        alert(data.retMsg);
+                    }
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                    display(e);
+                },
+                done : function(e) {
+                    console.log("DONE");
+                }
+            });
+        }
+
+        function signup(){
+            parent.window.location="signup.html";
+        }
+    </script>
+</body>
+
+</html>

@@ -388,7 +388,7 @@ form,
 
 
 /* ------------------------------------------------------------------- 
- * floated User - (_document-setup)
+ * floated image - (_document-setup)  
  * ------------------------------------------------------------------- */
 
 img.pull-right {
@@ -483,9 +483,9 @@ td:last-child {
 .pace {
   -webkit-pointer-events: none;
   pointer-events: none;
-  -webkit-User-select: none;
-  -moz-User-select: none;
-  User-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   z-index: 2000;
   position: fixed;
   margin: auto;
@@ -1160,7 +1160,7 @@ h1.intro-header::before {
   border: none;
   width: 97px;
   height: 22px;
-  background: url("../Users/logo.png") no-repeat center;
+  background: url("../images/logo.png") no-repeat center;
   background-size: 97px 22px;
   font: 0/0 a;
   text-shadow: none;
@@ -1421,7 +1421,7 @@ h1.intro-header::before {
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to right, black 0%, black 20%, transparent 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXUserTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000', GradientType=1);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000', GradientType=1);
   /* IE6-9 */
 }
 
@@ -1494,7 +1494,7 @@ h1.intro-header::before {
   color: #000000 !important;
 }
 
-.home-User-right {
+.home-image-right {
   display: block;
   position: absolute;
   right: 0;
@@ -1508,7 +1508,7 @@ h1.intro-header::before {
   text-align: right;
 }
 
-.home-User-right img {
+.home-image-right img {
   vertical-align: bottom;
   width: 75%;
 }
@@ -1582,7 +1582,7 @@ h1.intro-header::before {
   color: #44c455 !important;
 }
 
-html[data-Useragent*='MSIE 10.0'] .home-scrolldown,
+html[data-useragent*='MSIE 10.0'] .home-scrolldown,
 .oldie .home-scrolldown {
   display: none;
 }
@@ -1672,7 +1672,7 @@ html[data-Useragent*='MSIE 10.0'] .home-scrolldown,
  * ------------------------------------------------------------------- */
 
 @media only screen and (max-width: 1300px) {
-  .home-User-right {
+  .home-image-right {
     right: 5rem;
   }
 }
@@ -1693,10 +1693,10 @@ html[data-Useragent*='MSIE 10.0'] .home-scrolldown,
   .home-content-left h1 {
     font-size: 4.8rem;
   }
-  .home-User-right {
+  .home-image-right {
     padding-top: 18rem;
   }
-  .home-User-right img {
+  .home-image-right img {
     vertical-align: top;
     width: 70%;
   }
@@ -1722,11 +1722,11 @@ html[data-Useragent*='MSIE 10.0'] .home-scrolldown,
   .home-content-left h1 {
     font-size: 4.2rem;
   }
-  .home-User-right {
+  .home-image-right {
     width: 40%;
     padding-top: 120px;
   }
-  .home-User-right img {
+  .home-image-right img {
     vertical-align: top;
     width: 100%;
   }
@@ -1751,7 +1751,7 @@ html[data-Useragent*='MSIE 10.0'] .home-scrolldown,
   .home-content-left h1 {
     margin-bottom: 3.6rem;
   }
-  .home-User-right {
+  .home-image-right {
     width: 400px;
     right: auto;
     top: auto;
@@ -1819,7 +1819,7 @@ html[data-Useragent*='MSIE 10.0'] .home-scrolldown,
   .home-content-left .button.stroke {
     margin: 0 0 1.2rem 0;
   }
-  .home-User-right {
+  .home-image-right {
     width: 320px;
     margin-bottom: -298px;
   }
@@ -1948,7 +1948,7 @@ html[data-Useragent*='MSIE 10.0'] .home-scrolldown,
   left: -27px;
 }
 
-.about-bottom-User img {
+.about-bottom-image img {
   vertical-align: bottom;
 }
 
@@ -2530,11 +2530,11 @@ html[data-Useragent*='MSIE 10.0'] .home-scrolldown,
 }
 
 #download .download-badges li a.badge-appstore {
-  background-User: url("../Users/appstore.png");
+  background-image: url("../images/appstore.png");
 }
 
 #download .download-badges li a.badge-googleplay {
-  background-User: url("../Users/google-play.png");
+  background-image: url("../images/google-play.png");
 }
 
 
@@ -2617,7 +2617,7 @@ footer ul a:visited {
   border: none;
   width: 93px;
   height: 21px;
-  background: url("../Users/logo.png") no-repeat center;
+  background: url("../images/logo.png") no-repeat center;
   background-size: 93px 21px;
   font: 0/0 a;
   text-shadow: none;
@@ -2659,7 +2659,7 @@ footer ul a:visited {
   width: 100%;
   height: 5.4rem;
   padding: 1.2rem 100px 1.2rem 60px;
-  background: url(../Users/email-icon.png) 20px center no-repeat, rgba(0, 0, 0, 0.1);
+  background: url(../images/email-icon.png) 20px center no-repeat, rgba(0, 0, 0, 0.1);
   background-size: 24px 16px, auto;
   margin-bottom: 1.8rem;
   color: rgba(255, 255, 255, 0.5);
@@ -2858,4 +2858,4 @@ footer ul a:visited {
 }
 
 
-/*# sourceMappingURL=controller.css.map */
+/*# sourceMappingURL=main.css.map */

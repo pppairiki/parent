@@ -20,8 +20,8 @@
 <script src="js/tools.js"></script>
 <script>
     window.tools = new Tools();
-    var UserInfo = tools.getStorage("ccUserInfo");
-    if (!UserInfo || UserInfo == "undefined") {
+    var userInfo = tools.getStorage("ccUserInfo");
+    if (!userInfo || userInfo == "undefined") {
         alert("please login first!")
         parent.window.location="login.html";
     }

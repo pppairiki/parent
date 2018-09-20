@@ -56,13 +56,14 @@ public class LoginInterceptor implements HandlerInterceptor {
                    RedisSession redisSession = new RedisSession();
                    String a = null;
                    redisSession.setAttribute("userId",UserObj.getId());
+                   redisSession.setAttribute("userName",UserObj.getName());
                    redisSession.setAttribute("loginStatus",1);
                    redisSession.setAttribute("lastPage","index.html");
                    String sid = SessionUtil.getSid();
                    SessionUtil.saveSession(sid,redisSession);
                    Cookie cookie = new Cookie("sid", sid);
-                   cookie.setMaxAge(60 * 60);  //设置生存期为1小时
-                   //		hit.setDomain("www.zifansky.cn");  //子域，在这个子域下才可以访问该Cookie
+                   cookie.setMaxAge(30 * 24 * 60 * 60);  //设置生存期为30天
+                   cookie.setDomain("www.ccpourtoujours.com");  //子域，在这个子域下才可以访问该Cookie
                    //		hit.setPath("/hello");  //在这个路径下面的页面才可以访问该Cookie
                    //		hit.setSecure(true);  //如果设置了Secure，则只有当使用https协议连接时cookie才可以被页面访问
                    response.addCookie(cookie);
@@ -70,6 +71,37 @@ public class LoginInterceptor implements HandlerInterceptor {
                }
                log.debug("doLogin brench failed!");
                return false;
+           }else if("/logout".equals(uri)){
+               Cookie[] cookies = request.getCookies();
+               Cookie sidCookie = null;
+               for(Cookie cookie : cookies){
+                   if("sid".equals(cookie.getName())){
+                       sidCookie = cookie;
+                       break;
+                   }
+               }
+               if(sidCookie == null){
+                   response.setContentType("application/json");
+                   response.setCharacterEncoding("UTF-8");
+                   response.getWriter().print( JsonUtil.newSucessJson("sidCookie is null").toString());
+                   response.getWriter().flush();
+                   return  false;
+               }
+               RedisSession session = SessionUtil.getSession(sidCookie.getValue());
+               if(session == null){
+                   response.setContentType("application/json");
+                   response.setCharacterEncoding("UTF-8");
+                   response.getWriter().print( JsonUtil.newSucessJson("session is null").toString());
+                   response.getWriter().flush();
+                   return  false;
+               }
+               session.setAttribute("loginStatus",2);
+               SessionUtil.saveSession(sidCookie.getValue(),session);
+               response.setContentType("application/json");
+               response.setCharacterEncoding("UTF-8");
+               response.getWriter().print( JsonUtil.newSucessJson("normal logout").toString());
+               response.getWriter().flush();
+               return  false;
            }else{
                Cookie[] cookies = request.getCookies();
                Cookie sidCookie = null;
@@ -80,35 +112,31 @@ public class LoginInterceptor implements HandlerInterceptor {
                    }
                }
                if(sidCookie == null){
+                   response.setContentType("application/json");
+                   response.setCharacterEncoding("UTF-8");
+                   response.getWriter().print( JsonUtil.newFailureJson("please login first!").toString());
+                   response.getWriter().flush();
                    return  false;
                }
                RedisSession session = SessionUtil.getSession(sidCookie.getValue());
                if(session == null){
+                   response.setContentType("application/json");
+                   response.setCharacterEncoding("UTF-8");
+                   response.getWriter().print( JsonUtil.newFailureJson("login status is out of time,please login again!").toString());
+                   response.getWriter().flush();
                    return  false;
                }
                int loginStatus = (int)session.getAttribute("loginStatus");
                if(loginStatus != 1){
+                   response.setContentType("application/json");
+                   response.setCharacterEncoding("UTF-8");
+                   response.getWriter().print( JsonUtil.newFailureJson("the user has logout,please login again!").toString());
+                   response.getWriter().flush();
                    return  false;
                }
                request.setAttribute("userId",session.getAttribute("userId"));
+               request.setAttribute("userName",session.getAttribute("userName"));
                return true;
-            /*if("post".equals(request.getMethod())){
-                JsonObject json = JsonUtil.string2Json(getBodyString(request));
-                if(json == null){
-                    return false;
-                }
-                String account = JsonUtil.getString(json,"account");
-                String token = JsonUtil.getString(json,"token");
-                if(StringUtil.isNullOrEmpty(account)){
-                    return false;
-                }
-                int UserId = UserLogicService.isLogin(account,token);
-                if(UserId < 0){
-                    return false;
-                }else{
-                    return  true;
-                }
-            }*/
            }
        }catch (Exception e){
            log.debug("preHandle exception:",e);

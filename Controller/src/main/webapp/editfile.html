@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>New File</title>
+    <title>Edit File</title>
     <script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="/js/xheditor-1.2.2.min.js"></script>
     <script type="text/javascript" src="/js/xheditor_lang/zh-cn.js"></script>
@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<div id="newfile_frame" class="absoluteCenter">
+<div id="edit_file_frame" class="absoluteCenter">
         <p><label class="label_input">title</label><input type="text" id="title" class="text_field"/></p>
         <div>
             <textarea id ="content"></textarea>
@@ -26,16 +26,26 @@
 <script type="text/javascript">
     window.tools = new Tools();
     var editor = $('#content').xheditor({tools:'full',skin:'default',sourceMode:true,showBlocktag:true,internalScript:true,internalStyle:true,width:800,height:600,loadCSS:'http://xheditor.com/test.css',fullscreen:false,forcePtag:false,upImgUrl:"upload.php",upImgExt:"jpg,jpeg,gif,png"});
+    var fileId = 0;
+    window.onload = function () {
+        var titleval = window.opener.document.getElementById("h_title").innerText;
+        fileId = window.opener.document.getElementById("hidden_id").value;
+        var contentval = window.opener.document.getElementById("div_content").innerHTML;
+        $("#title").val(titleval);
+        editor.setSource(contentval);
+    }
+
     function submit(){
         var title = document.getElementById("title").value;
         var content = editor.getSource();
         var data = new Object();
+        data.id = fileId;
         data.title = title;
         data.content = content;
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "createFileWithContent",
+            url : "updateFileContent",
             data : JSON.stringify(data),
             dataType : 'json',
             timeout : 100000,

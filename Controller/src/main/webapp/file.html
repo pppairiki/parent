@@ -12,122 +12,81 @@
     <meta name="referrer" content="always">
     <meta name="keywords" content="" />
     <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
-    <title>XXXtitle</title>
+    <title id = "m_title"></title>
 </head>
 <body>
 <div class="container clearfix" id="mainBox">
+    <input id="hidden_id" hidden="true"></input>
     <main>
         <div class="blog-content-box">
             <div class="article-header-box">
                 <div class="article-header">
                     <div class="article-title-box">
-                        <h1 class="title-article">标题</h1>
+                        <h1 id = "h_title" class="title-article"></h1>
                     </div>
                 </div>
             </div>
             <article>
                 <div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog"  data-mod=popu_307  data-dsm = "post" >
-                    <div class="markdown_views">
-                        <p>当前后端分离时，权限问题的处理也和我们传统的处理方式有一点差异。笔者前几天刚好在负责一个项目的权限管理模块，现在权限管理模块已经做完了，我想通过5-6篇文章，来介绍一下项目中遇到的问题以及我的解决方案，希望这个系列能够给小伙伴一些帮助。本系列文章并不是手把手的教程，主要介绍了核心思路并讲解了核心代码，完整的代码小伙伴们可以在GitHub上star并clone下来研究。另外，原本计划把项目跑起来放到网上供小伙伴们查看，但是之前买服务器为了省钱，内存只有512M，两个应用跑不起来(已经有一个<a href="https://github.com/lenve/VBlog" rel="nofollow" target="_blank">V部落开源项目</a>在运行)，因此小伙伴们只能将就看一下下面的截图了，文末有部署教程，部署到本地也可以查看完整效果。  </p>
-
-                        <p>本文我们先不聊具体实现，我先来介绍一下我这个权限管理模块的一个整体架构，以及最终呈现出来的效果。  </p>
-
-
-
-                        <h2 id="数据库设计">数据库设计</h2>
-
-                        <p>权限数据库主要包含了五张表，分别是资源表、角色表、用户表、资源角色表、用户角色表，数据库关系模型如下：  </p>
-
-                        <p><img src="https://img-blog.csdn.net/20180109102621448?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwMjU0Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""> </p>
-
-                        <p>关于这个表，我说如下几点：  </p>
-
-                        <p>1.hr表是用户表，存放了用户的基本信息。  </p>
-
-                        <p>2.role是角色表，name字段表示角色的英文名称，按照SpringSecurity的规范，将以<code>ROLE_</code>开始，nameZh字段表示角色的中文名称。  </p>
-
-                        <p>3.menu表是一个资源表，该表涉及到的字段有点多，由于我的前端采用了Vue来做，因此当用户登录成功之后，系统将根据用户的角色动态加载需要的模块，所有模块的信息将保存在menu表中，menu表中的path、component、iconCls、keepAlive、requireAuth等字段都是Vue-Router中需要的字段，也就是说menu中的数据到时候会以json的形式返回给前端，再由vue动态更新router，menu中还有一个字段url，表示一个url pattern，即路径匹配规则，假设有一个路径匹配规则为<code>/admin/**</code>,那么当用户在客户端发起一个<code>/admin/user</code>的请求，将被<code>/admin/**</code>拦截到，系统再去查看这个规则对应的角色是哪些，然后再去查看该用户是否具备相应的角色，进而判断该请求是否合法。  </p>
-
-                        <p>下图分别是用户表、角色表以及资源表中的部分数据(数据库脚本可以在文末的项目地址中下载，位置<a href="https://github.com/lenve/vhr/blob/master/hrserver/src/main/resources/vhr.sql" rel="nofollow" target="_blank">resources/vhr.sql</a>)：  </p>
-
-                        <p><img src="https://img-blog.csdn.net/20180109102639155?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwMjU0Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""> <br>
-                            <img src="https://img-blog.csdn.net/20180109102646761?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwMjU0Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""> <br>
-                            <img src="https://img-blog.csdn.net/20180109102654867?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwMjU0Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
-
-                        <h2 id="整体效果">整体效果</h2>
-
-                        <p>首先，不同的用户在登录成功之后，根据不同的角色，会看到不同的系统菜单，完整菜单如下：  </p>
-
-                        <p><img src="https://img-blog.csdn.net/20180109102713143?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwMjU0Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title="">  </p>
-
-                        <p>不同用户登录上来之后，可能看到的会有差异，如下：  </p>
-
-                        <p><img src="https://img-blog.csdn.net/20180109102722592?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwMjU0Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
-
-                        <p>每个用户的角色是由系统管理员进行分配的，系统管理员给用户分配角色的页面如下：  </p>
-
-                        <p><img src="https://img-blog.csdn.net/20180109102733158?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwMjU0Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
-
-                        <p>系统管理员也可以管理不同角色可以操作的资源，页面如下：  </p>
-
-                        <p><img src="https://img-blog.csdn.net/20180109102745160?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjcwMjU0Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""> </p>
-
-                        <p>其他的删除、搜索等一些琐碎的功能我这里就不再一一介绍了。  </p>
-
-                        <h2 id="项目地址">项目地址</h2>
-
-                        <p>由于商业协议，原本的项目不能共享给各位小伙伴，因此我专门做了一个开源项目，这个项目的功能整体来说比较多，但是考虑到这个系列的文章主要是向大家介绍权限管理模块，因此其他模块都被我暂时阉割掉了，不过小伙伴们可以放心，权限管理模块的代码一行都没有删除，涉及到权限管理的代码和数据都是完整的，可以直接运行的。小伙伴将以管理员的身份登录到后台系统，登录成功之后，依次点击<strong>系统管理-&gt;基础信息设置-&gt;权限组</strong>，即可配置不同角色可以操作的资源；然后依次点击<strong>系统管理-&gt;操作员管理</strong>，即可管理每一位操作员的角色。  </p>
-
-                        <p>项目地址: <a href="https://github.com/lenve/vhr" rel="nofollow" target="_blank">https://github.com/lenve/vhr</a>  </p>
-
-
-
-                        <h2 id="快速部署">快速部署</h2>
-
-                        <p>1.clone项目到本地<code>git@github.com:lenve/vhr.git</code>  </p>
-
-                        <p>2.数据库脚本放在hrserver项目的resources目录下，在MySQL中执行数据库脚本  </p>
-
-                        <p>3.数据库配置在hrserver项目的resources目录下的application.properties文件中  </p>
-
-                        <p>4.在IntelliJ IDEA中运行hrserver项目  </p>
-
-                        <p><strong>OK，至此，服务端就启动成功了，此时我们直接在地址栏输入<code>http://localhost:8082/index.html</code>即可访问我们的项目，如果要做二次开发，请继续看第五、六步。</strong>  </p>
-
-                        <p>5.进入到vuehr目录中，在命令行依次输入如下命令：  </p>
-
-
-
-                        <pre class="prettyprint"><code class=" hljs vala"><span class="hljs-preprocessor"># 安装依赖</span>
-npm install
-
-<span class="hljs-preprocessor"># 在 localhost:8080 启动项目</span>
-npm run dev</code></pre>
-
-                        <p>由于我在vuehr项目中已经配置了端口转发，将数据转发到SpringBoot上，因此项目启动之后，在浏览器中输入<code>http://localhost:8080</code>就可以访问我们的前端项目了，所有的请求通过端口转发将数据传到SpringBoot中（注意此时不要关闭SpringBoot项目）。  </p>
-
-                        <p>6.最后可以用WebStorm等工具打开vuehr项目，继续开发，开发完成后，当项目要上线时，依然进入到vuehr目录，然后执行如下命令：  </p>
-
-
-
-                        <pre class="prettyprint"><code class=" hljs coffeescript"><span class="hljs-built_in">npm</span> run build</code></pre>
-
-                        <p>该命令执行成功之后，vuehr目录下生成一个dist文件夹，将该文件夹中的两个文件static和index.html拷贝到SpringBoot项目中resources/static/目录下，然后就可以像第4步那样直接访问了。  </p>
-
-
-                        <h2 id="注意事项">注意事项</h2>
-
-                        <p>再次强调，这只是一个权限管理功能模块，运行后只有权限管理功能是完整的。小伙伴们在本地部署成功之后，可以修改每一个用户的角色以及每一个角色可以操作的资源，修改成功之后，注销登录，再以被修改的用户身份登录，即可看到菜单变化。  </p>
-
-                        <p>好了，本文我们就先说这么多，从下篇文章开始，我会和小伙伴分享这个效果实现的核心思路，欢迎小伙伴们持续关注。  </p>
-
-                        <p>关注公众号，可以及时接收到最新文章:  </p>
-
+                    <div id="div_content" class="markdown_views">
                     </div>
+                </div>
             </article>
-
+            <div>
+                <button id="btn_edit">编辑</button>
+            </div>
         </div>
     </main>
 </div>
+<script src="js/jquery-2.1.3.min.js"></script>
+<script>
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+    $('#btn_edit').click(function () {
+        window.open('./editfile.html')
+    })
+    window.onload = function () {
+        var data =  new Object();
+        data.id = getQueryVariable("id");
+        $('#hidden_id').val(data.id);
+        var title = decodeURI(getQueryVariable("title"));
+        $.ajax({
+            type : "POST",
+            contentType : "application/json;cherset=utf-8",
+            url : "getFile",
+            data : JSON.stringify(data),
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                $('#m_title').empty();
+                $('#m_title').html(title);
+                $('#h_title').empty();
+                $('#h_title').html(title);
+                $('#div_content').empty();
+                var chargeRuleLogs = data.list;
+                var content="";
+                $.each(chargeRuleLogs, function (index, n) {
+                    content = content + chargeRuleLogs[index].content;
+                });
+                document.getElementById('div_content').innerHTML = content;
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+                display(e);
+            },
+            done : function(e) {
+                console.log("DONE");
+            }
+        });
+    }
+</script>
 </body>
 </html>

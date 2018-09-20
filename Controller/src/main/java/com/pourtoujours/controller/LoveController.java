@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ControllerLove {
-    public static Logger log = Logger.getLogger(ControllerLove.class);
-    public ControllerLove(){
+public class LoveController {
+    public static Logger log = Logger.getLogger(LoveController.class);
+    public LoveController(){
     }
     @RequestMapping(value="goLove",method=RequestMethod.POST)
     public String Love(@RequestBody String jsonStr) {

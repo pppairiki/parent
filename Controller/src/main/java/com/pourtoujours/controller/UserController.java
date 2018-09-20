@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ControllerUser {
+public class UserController {
 
-    public ControllerUser() {
+    public UserController() {
     }
 
-    public static Logger log = Logger.getLogger(ControllerUser.class);
+    public static Logger log = Logger.getLogger(UserController.class);
 
     @RequestMapping(value="getUser", method = RequestMethod.GET)
     public User getUser(){

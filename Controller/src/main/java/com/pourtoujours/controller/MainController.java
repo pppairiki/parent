@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class ControllerMain {
-    public ControllerMain() {
+public class MainController {
+    public MainController() {
     }
 
     //路由匹配，使用index.jsp进行页面渲染

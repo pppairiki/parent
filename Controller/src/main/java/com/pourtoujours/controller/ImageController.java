@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-public class ControllerImage {
+public class ImageController {
     @RequestMapping(value="getGalleryList",method= RequestMethod.POST)
     public String getGalleryList(@RequestBody String jsonStr,HttpServletRequest request){
         JsonObject json = JsonUtil.string2Json(jsonStr);
