@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+    <title>编辑</title>
+
+    <link rel="stylesheet" type="text/css" href="./js/dist/css/wangEditor-mobile.css">
+
+    <style type="text/css">
+        .container {
+            width:100%;
+            height:300px;
+            border:1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <form class="form" >
+        <div class="form-group">
+            <label class="label_input"><h4>编辑</h4></label>
+            <br>
+            <input type="text" class="form-control" id="title_input" style="width: 100%;">
+        </div>
+        <div id="editor_toolbar" class="toolbar">
+        </div>
+        <div style="padding: 5px 0; color: #ccc"></div><!-- 空白  -->
+        <div class="container">
+		    <textarea id="textarea1" style="width:100%;height:100%;">
+		</textarea>
+        </div>
+        <div style="padding: 5px 0; color: #ccc"></div>
+        <div class="form-group">
+            <button id="btn_update_file_phone" type="button" style="width: fit-content" class="btn btn-block btn-success">提交</button>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript" src="./js/dist/js/lib/zepto.js"></script>
+<script type="text/javascript" src="./js/dist/js/lib/zepto.touch.js"></script>
+<script type="text/javascript" src="./js/dist/js/wangEditor-mobile.js"></script>
+<script src="js/jquery-2.1.3.min.js"></script>
+<script src="./js/tools.js"></script>
+<script type="text/javascript">
+    window.tools = new Tools();
+    var editor ;
+    var fileId = 0;
+    window.onload = function () {
+        // ___E 三个下划线
+        ___E.config.happy = [
+        ]
+        editor = new ___E('textarea1');
+        editor.init();
+        var titleval = window.opener.document.getElementById("h_title").innerText;
+        var contentval = window.opener.document.getElementById("div_content").innerHTML;
+        fileId = window.opener.document.getElementById("hidden_id").value;
+        $("#title_input").val(titleval);
+        editor.$txt.html(contentval);
+    }
+    $('#btn_update_file_phone').on('click', function(){
+        var title = document.getElementById("title_input").value;
+        var content = editor.$txt.html();
+        var data = new Object();
+        data.id = fileId;
+        data.title = title;
+        data.content = content;
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            url : "updateFileContent",
+            data : JSON.stringify(data),
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                var retCode = data.retCode;
+                if(retCode == 0){
+                    parent.window.location="index.html";
+                }else{
+                    alert(data.retMsg);
+                }
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+                display(e);
+            },
+            done : function(e) {
+                console.log("DONE");
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -454,10 +454,17 @@
                         var rowTr = document.createElement('tr')
                         //找到html的tr节点
                         rowTr.className = "tr_node"
-                        var child = "<td><a href=\"http://www.ccpourtoujours.com/file.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name + "\">" + chargeRuleLogs[index].name +  "</a></td>"
-                            + "<td>" + chargeRuleLogs[index].createname + "</td>"
-                            + "<td>" + chargeRuleLogs[index].createtime + "</td>"
+                        var child;
                         //将要展示的信息写入页面
+                        if(os.isAndroid || os.isPhone){
+                            child = "<td><a href=\"http://www.ccpourtoujours.com/filephone.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name + "\">" + chargeRuleLogs[index].name +  "</a></td>"
+                                + "<td>" + chargeRuleLogs[index].createname + "</td>"
+                                + "<td>" + chargeRuleLogs[index].createtime + "</td>";
+                        }else{
+                            child = "<td><a href=\"http://www.ccpourtoujours.com/file.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name + "\">" + chargeRuleLogs[index].name +  "</a></td>"
+                                + "<td>" + chargeRuleLogs[index].createname + "</td>"
+                                + "<td>" + chargeRuleLogs[index].createtime + "</td>";
+                        }
                         rowTr.innerHTML = child
                         //将信息追加
                         $(".table_node").append(rowTr)
@@ -572,9 +579,6 @@
                 }
             });
         }
-
-
-
     </script>
 </body>
 

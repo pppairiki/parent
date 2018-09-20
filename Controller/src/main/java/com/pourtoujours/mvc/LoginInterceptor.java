@@ -134,6 +134,10 @@ public class LoginInterceptor implements HandlerInterceptor {
                    response.getWriter().flush();
                    return  false;
                }
+               //更新session
+               session.setAttribute("lastPage",uri);
+               SessionUtil.saveSession(sidCookie.getValue(),session);
+               //从session获取用户信息
                request.setAttribute("userId",session.getAttribute("userId"));
                request.setAttribute("userName",session.getAttribute("userName"));
                return true;
