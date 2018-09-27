@@ -60,40 +60,6 @@
 </div>
 <script src="js/jquery-2.1.3.min.js"></script>
 <script>
-    function getQueryVariable(variable)
-    {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-            var pair = vars[i].split("=");
-            if(pair[0] == variable){return pair[1];}
-        }
-        return(false);
-    }
-    var os = function() {
-        var ua = navigator.userAgent,
-            isWindowsPhone = /(?:Windows Phone)/.test(ua),
-            isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
-            isAndroid = /(?:Android)/.test(ua),
-            isFireFox = /(?:Firefox)/.test(ua),
-            isChrome = /(?:Chrome|CriOS)/.test(ua),
-            isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
-            isPhone = /(?:iPhone)/.test(ua) && !isTablet,
-            isPc = !isPhone && !isAndroid && !isSymbian;
-        return {
-            isTablet: isTablet,
-            isPhone: isPhone,
-            isAndroid : isAndroid,
-            isPc : isPc
-        };
-    }();
-    $('#btn_edit').click(function () {
-        if(os.isAndroid || os.isPhone){
-            window.open('./editfilephone.html')
-        }else{
-            window.open('./editfilepc.html')
-        }
-    })
     window.onload = function () {
         var data =  new Object();
         data.id = getQueryVariable("id");
@@ -128,6 +94,41 @@
             }
         });
     }
+
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+    var os = function() {
+        var ua = navigator.userAgent,
+            isWindowsPhone = /(?:Windows Phone)/.test(ua),
+            isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
+            isAndroid = /(?:Android)/.test(ua),
+            isFireFox = /(?:Firefox)/.test(ua),
+            isChrome = /(?:Chrome|CriOS)/.test(ua),
+            isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
+            isPhone = /(?:iPhone)/.test(ua) && !isTablet,
+            isPc = !isPhone && !isAndroid && !isSymbian;
+        return {
+            isTablet: isTablet,
+            isPhone: isPhone,
+            isAndroid : isAndroid,
+            isPc : isPc
+        };
+    }();
+    $('#btn_edit').click(function () {
+        if(os.isAndroid || os.isPhone){
+            window.open('./editfilephone.html')
+        }else{
+            window.open('./editfilepc.html')
+        }
+    });
 </script>
 </body>
 </html>
