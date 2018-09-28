@@ -21,6 +21,10 @@
     select * from t_gallery where createrId = #{createrId}
     limit ${startIndex},${amount}
   </select>
+  <select id="getListByUser" resultMap="BaseResultMap" >
+    select * from t_gallery
+    where visable = 1 and createrId = #{userId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

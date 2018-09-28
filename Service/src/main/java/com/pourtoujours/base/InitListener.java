@@ -1,5 +1,6 @@
 package com.pourtoujours.base;
 
+import com.pourtoujours.model.CCFile;
 import com.pourtoujours.model.Gallery;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationListener;
@@ -31,6 +32,21 @@ public class InitListener implements ApplicationListener<ContextRefreshedEvent> 
                 redisTemplate.delete(key);
             }
             redisTemplate.opsForList().rightPush(key, gallery);
+        }
+    }
+
+    public void initFileCache(){
+        log.debug("initFileCache run!");
+        RedisTemplate redisTemplate = Provider.getRedisTemplate();
+        List<CCFile> list = Provider.getBaseDao().fileDao.getAllList();
+        HashSet<String> keySet = new HashSet<String>();
+        for(CCFile file : list){
+            String key = "t_file:"+file.getCreaterid();
+            if(!keySet.contains(key)){
+                keySet.add(key);
+                redisTemplate.delete(key);
+            }
+            redisTemplate.opsForList().rightPush(key, file);
         }
     }
 }

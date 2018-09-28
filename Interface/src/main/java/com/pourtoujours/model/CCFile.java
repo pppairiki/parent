@@ -3,7 +3,7 @@ package com.pourtoujours.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CCFile  implements Serializable {
+public class CCFile implements Serializable {
     private Integer id;
 
     private String name;

@@ -21,20 +21,22 @@
     <dubbo:application name="dubbo-provider"></dubbo:application>
     <dubbo:registry protocol="zookeeper" address="127.0.0.1:12181,127.0.0.1:12182,127.0.0.1:12183" />
     <dubbo:protocol name="dubbo" port="28880" />
-    <!-- ?????????? -->
+
     <dubbo:service interface="com.pourtoujours.api.IUserService" ref="userService" cluster="failover"  loadbalance="random"/>
     <dubbo:service interface="com.pourtoujours.api.IImageService" ref="imageService" cluster="failover"  loadbalance="random"/>
-    <!-- ????????????? -->
+    <dubbo:service interface="com.pourtoujours.api.IFileService" ref="fileService" cluster="failover"  loadbalance="random"/>
+    <!---->
     <context:component-scan base-package="com.pourtoujours"/>
     <beans>
         <!--import another applicationcontecxt.xml -->
         <!--notice: the import block must in front of all the bean-->
         <import resource="mybatisconfig.xml"/>
         <import resource="redis-cluster.xml"/>
-        <bean id= "baseDao" class="com.pourtoujours.dao.BaseDao" />
+        <bean id= "baseDao" class="com.pourtoujours.base.BaseDao" />
         <bean id= "initListener" class="com.pourtoujours.base.InitListener" />
-        <bean id= "userService" class="com.pourtoujours.impl.UserServiceImpl" />
-        <bean id= "imageService" class="com.pourtoujours.impl.ImageServiceImpl" />
+        <bean id= "userService" class="com.pourtoujours.impl.UserService" />
+        <bean id= "imageService" class="com.pourtoujours.impl.ImageService" />
+        <bean id= "fileService" class="com.pourtoujours.impl.FileService" />
     </beans>
 
     <!--&lt;!&ndash; ?????? &ndash;&gt;

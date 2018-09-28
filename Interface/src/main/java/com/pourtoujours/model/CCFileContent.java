@@ -18,6 +18,8 @@ public class CCFileContent  implements Serializable {
 
     private Date updatetime;
 
+    private String content;
+
     public Integer getId() {
         return id;
     }
@@ -72,5 +74,13 @@ public class CCFileContent  implements Serializable {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 }

@@ -21,11 +21,27 @@
     from t_file
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getList" resultMap="BaseResultMap" >
+    select * from t_file where visable = 1 and createrId = #{createrId}
+    limit ${startIndex},${amount}
+  </select>
+  <select id="getAllList" resultMap="BaseResultMap" >
+    select * from t_file
+  </select>
+  <select id="getListByUser" resultMap="BaseResultMap" >
+    select * from t_file
+    where visable = 1 and createrId = #{userId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_file
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.pourtoujours.model.CCFile">
+  <delete id="del" parameterType="java.lang.Integer">
+    update t_file set visable = 2
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pourtoujours.model.CCFile"
+          useGeneratedKeys="true" keyProperty="id">
     insert into t_file (id, name, summary, 
       createrId, createName, isPrivate, 
       visable, remark, createTime

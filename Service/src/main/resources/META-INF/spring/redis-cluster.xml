@@ -65,7 +65,7 @@
           class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
 
     <!-- 集群Resis使用模板 -->
-    <bean id="clusterRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
         <property name="connectionFactory" ref="redis4CacheConnectionFactory" />
         <property name="keySerializer" ref="stringRedisSerializer" />
         <property name="hashKeySerializer" ref="stringRedisSerializer" />

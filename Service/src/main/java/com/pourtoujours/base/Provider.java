@@ -1,7 +1,6 @@
 package com.pourtoujours.base;
 
 import com.alibaba.dubbo.config.spring.ServiceBean;
-import com.pourtoujours.dao.BaseDao;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -9,7 +8,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class Provider {
     public static Logger log = Logger.getLogger(Provider.class);
 
-    private  static ApplicationContext context=ServiceBean.getSpringContext();
+    private  static ApplicationContext context = null;
+
     public static ApplicationContext singleton() {
         log.debug("singleton run start!");
         if (context == null) {
@@ -29,7 +29,7 @@ public class Provider {
     }
 
     public static RedisTemplate getRedisTemplate(){
-        log.debug("getJdisCluster run!");
-        return (RedisTemplate) singleton().getBean("clusterRedisTemplate");
+        log.debug("getRedisTemplate run!");
+        return (RedisTemplate) singleton().getBean("redisTemplate");
     }
 }

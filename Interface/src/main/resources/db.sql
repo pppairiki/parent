@@ -130,6 +130,7 @@ CREATE TABLE `t_file_content` (
   	`id` int(11) NOT NULL AUTO_INCREMENT,
 	  `fileId` int(11) DEFAULT 0 COMMENT 'file id',
 	  `sortId` int(11) DEFAULT 0 COMMENT 'sortId',
+	  `content` text COMMENT 'content',
 	  `createrId` int(11) DEFAULT 0 COMMENT '创建人id',
     `createName` 	varchar(10) DEFAULT NULL COMMENT '创建人',
   	`createTime` datetime DEFAULT NULL COMMENT '创建时间',

@@ -21,4 +21,6 @@ public interface GalleryMapper {
     int updateByPrimaryKey(Gallery record);
 
     List<Gallery> getAllList();
+
+    List<Gallery> getListByUser(int userId);
 }
