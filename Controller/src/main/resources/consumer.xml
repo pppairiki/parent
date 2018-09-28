@@ -16,5 +16,4 @@
     <dubbo:reference id="userService" interface="com.pourtoujours.api.IUserService"/>
     <dubbo:reference id="imageService" interface="com.pourtoujours.api.IImageService"/>
     <dubbo:reference id="fileService" interface="com.pourtoujours.api.IFileService"/>
-
 </beans>

@@ -37,6 +37,7 @@
 <body>
 <div class="container clearfix" id="mainBox">
     <input id="hidden_id" hidden="true"></input>
+    <input type="checkbox" id="cb_isprivate" hidden="true"></input>
     <form class="form">
         <div class="blog-content-box">
             <div class="article-header-box">
@@ -53,7 +54,7 @@
                 </div>
             </article>
             <div>
-                <button id="btn_edit">编辑</button>
+                <button type="button" id="btn_edit" onclick="btn_edit_pc_click">编辑</button>
             </div>
         </div>
     </form>
@@ -64,6 +65,7 @@
         var data =  new Object();
         data.id = getQueryVariable("id");
         $('#hidden_id').val(data.id);
+
         var title = decodeURI(getQueryVariable("title"));
         $.ajax({
             type : "POST",
@@ -73,13 +75,12 @@
             dataType : 'json',
             timeout : 100000,
             success : function(data) {
-                $('#m_title').empty();
-                $('#m_title').html(title);
                 $('#h_title').empty();
                 $('#h_title').html(title);
                 $('#div_content').empty();
                 var chargeRuleLogs = data.list;
                 var content="";
+                $('#cb_isprivate').val(data.file.isPrivate);
                 $.each(chargeRuleLogs, function (index, n) {
                     content = content + chargeRuleLogs[index].content;
                 });
@@ -124,9 +125,9 @@
     }();
     $('#btn_edit').click(function () {
         if(os.isAndroid || os.isPhone){
-            window.open('./editfilephone.html')
+            window.open('./editfilephone.html');
         }else{
-            window.open('./editfilepc.html')
+            window.open('./editfilepc.html');
         }
     });
 </script>

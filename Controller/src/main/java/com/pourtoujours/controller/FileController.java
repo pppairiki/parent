@@ -4,11 +4,13 @@ import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.pourtoujours.base.Consumer;
+import com.pourtoujours.common.Page;
 import com.pourtoujours.logic.FileLogicService;
 import com.pourtoujours.model.CCFile;
 import com.pourtoujours.model.CCFileContent;
 import com.pourtoujours.util.JsonUtil;
 import com.pourtoujours.util.StringUtil;
+import com.pourtoujours.util.TokenUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,15 +31,20 @@ public class FileController {
             return JsonUtil.newFailureJson("request json is null!").toString();
         }
         int userId = (int)request.getAttribute("userId");
-        int pageNum = JsonUtil.getInt(json,"pageNum",0);
+        int pageNum = JsonUtil.getInt(json,"pageNum",1);
         int pageSize = JsonUtil.getInt(json,"pageSize",5);
-        List<CCFile> fileList = Consumer.getFileService().getFileList(userId, pageNum, pageSize);
+        //List<CCFile> fileList = Consumer.getFileService().getFileList(userId, pageNum, pageSize);
+        Page<CCFile> page = Consumer.getFileService().getFilePage(userId, pageNum, pageSize);
+        List<CCFile> fileList = page.getList();
         if(CollectionUtils.isEmpty(fileList)){
             return JsonUtil.newFailureJson("result is null!").toString();
         }
+        //log.debug(fileList);
         JsonObject retJson = JsonUtil.newSucessJson("sucessful");
         JsonArray ja = FileLogicService.parseList(fileList);
         retJson.add("list",ja);
+        retJson.addProperty("allTotal",page.getAllTotal());
+        retJson.addProperty("pageSize",page.getPageSize());
         return retJson.toString();
     }
 
@@ -50,12 +57,18 @@ public class FileController {
             }
             int userId = (int)request.getAttribute("userId");
             int id = JsonUtil.getInt(json,"id");
+            CCFile file = Consumer.getFileService().getFile(id);
+            if(file == null){
+                return JsonUtil.newFailureJson("file is null!").toString();
+            }
             List<CCFileContent> fileListContent = Consumer.getFileService().getFileContentList(id);
             if(CollectionUtils.isEmpty(fileListContent)){
                 return JsonUtil.newFailureJson("result is null!").toString();
             }
             JsonObject retJson = JsonUtil.newSucessJson("sucessful");
+            JsonObject fileJson = JsonUtil.parseObject2Json(file);
             JsonArray ja = FileLogicService.parseFileContentList(fileListContent);
+            retJson.add("file",fileJson);
             retJson.add("list",ja);
             return retJson.toString();
         }catch (Exception e){
@@ -117,16 +130,25 @@ public class FileController {
             String userName = (String)request.getAttribute("userName");
             String name = JsonUtil.getString(json, "title");
             String summary = JsonUtil.getString(json, "summary");
-            int isPrivate = JsonUtil.getInt(json, "isPrivate",0);
-            if (StringUtil.isNullOrEmpty(name)) {
-                return JsonUtil.newFailureJson("please type in name!").toString();
-            }
-            String content = JsonUtil.getString(json, "content");
-            int ret = Consumer.getFileService().createFileWithContent(userId,userName,name,summary,isPrivate,content);
-            if(ret > 0){
-                return JsonUtil.newSucessJson("sucessful").toString();
+            String reqtoken = JsonUtil.getString(json, "reqtoken");
+            if(TokenUtil.isFirstRequest(reqtoken)){
+                boolean isPrivateb = JsonUtil.getBoolean(json, "isPrivate");
+                int isPrivate = 0;
+                if(!isPrivateb){
+                    isPrivate =  1;
+                }
+                if (StringUtil.isNullOrEmpty(name)) {
+                    return JsonUtil.newFailureJson("please type in name!").toString();
+                }
+                String content = JsonUtil.getString(json, "content");
+                int ret = Consumer.getFileService().createFileWithContent(userId,userName,name,summary,isPrivate,content);
+                if(ret > 0){
+                    return JsonUtil.newSucessJson("sucessful").toString();
+                }else{
+                    return JsonUtil.newFailureJson("create file failure!").toString();
+                }
             }else{
-                return JsonUtil.newFailureJson("create file failure!").toString();
+                return JsonUtil.newFailureJson("请不要重复提交!").toString();
             }
         }catch (Exception e){
             log.debug("exception:",e);
@@ -150,7 +172,11 @@ public class FileController {
             }
             String name = JsonUtil.getString(json, "title");
             String summary = JsonUtil.getString(json, "summary");
-            int isPrivate = JsonUtil.getInt(json, "isPrivate",0);
+            boolean isPrivateb = JsonUtil.getBoolean(json, "isPrivate");
+            int isPrivate = 0;
+            if(!isPrivateb){
+                isPrivate =  1;
+            }
             if (StringUtil.isNullOrEmpty(name)) {
                 return JsonUtil.newFailureJson("please type in name!").toString();
             }
@@ -164,6 +190,28 @@ public class FileController {
         }catch (Exception e){
             log.debug("exception:",e);
             return JsonUtil.newFailureJson("update file failure!").toString();
+        }
+    }
+
+    @RequestMapping(value="delFile",method= RequestMethod.POST)
+    public String delFile(@RequestBody String jsonStr,HttpServletRequest request){
+        try{
+            JsonObject json = JsonUtil.string2Json(jsonStr);
+            int id = JsonUtil.getInt(json, "id");
+            if(id <= 0){
+                return JsonUtil.newFailureJson("update file failure!").toString();
+            }
+            int userId = (int)request.getAttribute("userId");
+            String userName = (String)request.getAttribute("userName");
+            int ret = Consumer.getFileService().deleteFile(userId,userName,id);
+            if(ret > 0){
+                return JsonUtil.newSucessJson("sucessful").toString();
+            }else{
+                return JsonUtil.newFailureJson("update file failure!").toString();
+            }
+        }catch (Exception e){
+            log.debug("exception:",e);
+            return JsonUtil.newFailureJson("delete file failure!").toString();
         }
     }
 }

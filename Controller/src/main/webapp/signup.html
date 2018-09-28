@@ -6,23 +6,59 @@
     <link rel="stylesheet" type="text/css" href="/css/login.css"/>
     <script src="/js/plugins/jquery.min.js"></script>
 <!--    <script type="text/javascript" src="login.js"></script>-->
+    <style>
+        html, body{
+            height:100%;
+        }
+        body{
+            position:relative;
+            background-color:#222;
+        }
+        .sign-body{
+            width: 340px;
+            padding: 10px 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -65%);
+            -webkit-transform: translate(-50%, -65%);
+            background-color: #d1ecff;
+        }
+    </style>
 </head>
 
 <body>
-<div id="login_frame">
-
-    <p id="image_logo"><img src="images/login/login.jpg"></p>
-
-    <form method="post" action="login.js">
-
-        <p><label class="label_input">Name</label><input type="text" id="name" class="text_field"/></p>
-        <p><label class="label_input">Account</label><input type="text" id="account" class="text_field"/></p>
-        <p><label class="label_input">Password</label><input type="password" id="password" class="text_field"/></p>
-
-        <div id="login_control">
-            <input type="button" id="btn_signup" value="Sign Up" onclick="signup();"/>
+<div id="signup_frame" class="sign-body">
+    <div class="container-fluid">
+        <div class="row">
+            <h3 class="login-tit">ccpourtoujours</h3>
         </div>
-    </form>
+        <div class="row">
+            <form class="form" role="form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <label class="label_input">姓名</label>
+                        <input type="text" class="form-control" id="name" placeholder="请输入用户名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label class="label_input">账户</label>
+                        <input type="text" class="form-control" id="account" placeholder="请输入登录账户">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label class="label_input">密码</label>
+                        <input type="password" class="form-control" id="password" placeholder="请输入密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-block btn-success" onclick="signup()" id="btn_signup">注册</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 </body>

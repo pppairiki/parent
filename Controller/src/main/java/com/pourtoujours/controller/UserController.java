@@ -4,12 +4,14 @@ import com.google.gson.JsonObject;
 import com.pourtoujours.logic.UserLogicService;
 import com.pourtoujours.model.User;
 import com.pourtoujours.util.JsonUtil;
+import com.pourtoujours.util.RedisSession;
+import com.pourtoujours.util.SessionUtil;
 import com.pourtoujours.util.StringUtil;
 import org.apache.log4j.Logger;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class UserController {
@@ -33,14 +35,41 @@ public class UserController {
     }
 
     @RequestMapping(value="doLogin",method=RequestMethod.POST)
-    public String doLogin(@RequestBody String jsonStr){
+    public String doLogin(@RequestBody String jsonStr, HttpServletResponse response){
+        log.debug("doLogin brench run!");
         JsonObject json = JsonUtil.string2Json(jsonStr);
-        JsonObject retJson = new JsonObject();
         if(json == null){
             return JsonUtil.newFailureJson("request json is null!").toString();
         }
+        JsonObject retJson = new JsonObject();
         String account = JsonUtil.getString(json,"account");
         String password = JsonUtil.getString(json,"password");
+        if(StringUtil.isNullOrEmpty(account) || StringUtil.isNullOrEmpty(password)){
+            log.debug("doLogin brench account or password is empty!");
+            return JsonUtil.newFailureJson(" account or password is empty!").toString();
+        }
+        User UserObj = UserLogicService.getUserByAccount(account);
+        if(UserObj == null){
+            log.debug("doLogin brench request user object is null!");
+            return JsonUtil.newFailureJson("user object is null!").toString();
+        }
+        if (UserObj.getPassword().equals(password)) {
+            log.debug("doLogin brench password is right!");
+            RedisSession redisSession = new RedisSession();
+            String a = null;
+            redisSession.setAttribute("userId",UserObj.getId());
+            redisSession.setAttribute("userName",UserObj.getName());
+            redisSession.setAttribute("loginStatus",1);
+            redisSession.setAttribute("lastPage","index.html");
+            String sid = SessionUtil.getSid();
+            SessionUtil.saveSession(sid,redisSession);
+            Cookie cookie = new Cookie("sid", sid);
+            cookie.setMaxAge(30 * 24 * 60 * 60);  //设置生存期为30天
+            cookie.setDomain("www.ccpourtoujours.com");  //子域，在这个子域下才可以访问该Cookie
+            //		hit.setPath("/hello");  //在这个路径下面的页面才可以访问该Cookie
+            //		hit.setSecure(true);  //如果设置了Secure，则只有当使用https协议连接时cookie才可以被页面访问
+            response.addCookie(cookie);
+        }
         if(StringUtil.isNullOrEmpty(account)){
             return JsonUtil.newFailureJson("please type in account!").toString();
         }

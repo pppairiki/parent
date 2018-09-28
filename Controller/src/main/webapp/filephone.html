@@ -35,8 +35,9 @@
     </style>
 </head>
 <body>
-<div class="container clearfix" id="mainBox">
+<div class="container clearfix" id="mainBoxphone">
     <input id="hidden_id" hidden="true"></input>
+    <input type="checkbox" id="cb_isprivate" hidden="true"></input>
     <form>
         <div class="blog-content-box">
             <div class="article-header-box">
@@ -53,7 +54,7 @@
                 </div>
             </article>
             <div>
-                <button id="btn_edit">编辑</button>
+                <button type="button" id="btn_edit">编辑</button>
             </div>
         </div>
     </form>
@@ -107,11 +108,10 @@
             dataType : 'json',
             timeout : 100000,
             success : function(data) {
-                $('#m_title').empty();
-                $('#m_title').html(title);
                 $('#h_title').empty();
                 $('#h_title').html(title);
                 $('#div_content').empty();
+                $('#cb_isprivate').val(data.file.isPrivate);
                 var chargeRuleLogs = data.list;
                 var content="";
                 $.each(chargeRuleLogs, function (index, n) {

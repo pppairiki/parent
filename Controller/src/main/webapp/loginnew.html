@@ -41,7 +41,7 @@
             left: 50%;
             transform: translate(-50%, -65%);
             -webkit-transform: translate(-50%, -65%);
-            background-color: #fff;
+            background-color: #d1ecff;
         }
         .login-tit{
             text-align: center;
@@ -62,7 +62,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-                            <input type="text" class="form-control" id="username" placeholder="请输入用户名">
+                            <input type="text" class="form-control" id="username" placeholder="请输入账户">
                         </div>
                     </div>
                     <div class="form-group">
@@ -70,9 +70,10 @@
                             <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
                             <input type="password" class="form-control" id="password" placeholder="请输入密码">
                         </div>
-                    </div>
+                      </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-block btn-success" onclick="login()" id="btn_login">登录</button>
+                        <button type="button" id="btn_signup" class="btn btn-block btn-success" onclick="signup();">注册</button>
                     </div>
                 </form>
             </div>

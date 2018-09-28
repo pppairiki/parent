@@ -23,6 +23,7 @@
             <label class="label_input"><h4>编辑</h4></label>
             <br>
             <input type="text" class="form-control" id="title_input" style="width: 100%;">
+            <input type="checkbox" id="cb_isprivate" checked="true">只有自己可见</input>
         </div>
         <div id="editor_toolbar" class="toolbar">
         </div>
@@ -52,12 +53,15 @@
         // ___E 三个下划线
         ___E.config.happy = [
         ]
+        ___E.config.uploadImgUrl = '/uploadmobileimg';
         editor = new ___E('textarea1');
         editor.init();
         var titleval = window.opener.document.getElementById("h_title").innerText;
         var contentval = window.opener.document.getElementById("div_content").innerHTML;
         fileId = window.opener.document.getElementById("hidden_id").value;
         $("#title_input").val(titleval);
+        var isPrivate = window.opener.document.getElementById("cb_isprivate").checked;
+        $("#cb_isprivate").prop('checked', isPrivate);
         editor.$txt.html(contentval);
     }
     $('#btn_update_file_phone').on('click', function(){
@@ -67,6 +71,7 @@
         data.id = fileId;
         data.title = title;
         data.content = content;
+        data.isPrivate = document.getElementById("cb_isprivate").checked;
         $.ajax({
             type : "POST",
             contentType : "application/json",
