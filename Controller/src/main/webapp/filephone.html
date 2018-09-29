@@ -112,7 +112,7 @@
                 $('#h_title').empty();
                 $('#h_title').html(title);
                 $('#div_content').empty();
-                $('#cb_isprivate').val(data.file.isPrivate);
+                $("#cb_isprivate").prop('checked', data.file.isprivate ==1);
                 var chargeRuleLogs = data.list;
                 var content="";
                 $.each(chargeRuleLogs, function (index, n) {

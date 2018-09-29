@@ -1502,10 +1502,10 @@ h1.intro-header::before {
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  padding-top: 21rem;
+  /*padding-top: 21rem;*/
   z-index: 500;
   width: 50%;
-  text-align: right;
+  text-align:center;
 }
 
 .home-image-right img {
@@ -1761,7 +1761,7 @@ html[data-useragent*='MSIE 10.0'] .home-scrolldown,
     -ms-transform: translateX(-50%);
     transform: translateX(-50%);
     padding: 0;
-    margin-bottom: -378px;
+    /*margin-bottom: -378px;*/
   }
 }
 

@@ -193,4 +193,18 @@ public class FileService implements IFileService{
         page.setPageSize(pageSize);
         return page;
     }
+
+    public Page<CCFile> getPublicFilePage(int pageIndex, int pageSize) {
+        log.debug("FileService.getFilePage run pageIndex"+pageIndex+",pageSize"+pageSize);
+        int startIndex = (pageIndex-1) * pageSize;
+        List<CCFile> list = fileDao.getPublicFileList();
+        List<CCFile> retlist = list.subList((pageIndex-1)*pageSize,pageIndex*pageSize > list.size() ? list.size(): pageIndex*pageSize);
+        long allTotal = list.size(); //记录总数
+        Page<CCFile> page = new Page<CCFile>();
+        page.setList(retlist);
+        page.setAllTotal((int)allTotal);
+        page.setNowPage(pageIndex);
+        page.setPageSize(pageSize);
+        return page;
+    }
 }

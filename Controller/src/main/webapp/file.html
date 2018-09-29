@@ -81,7 +81,7 @@
                 $('#div_content').empty();
                 var chargeRuleLogs = data.list;
                 var content="";
-                $('#cb_isprivate').val(data.file.isPrivate);
+                $("#cb_isprivate").prop('checked', data.file.isprivate ==1);
                 $.each(chargeRuleLogs, function (index, n) {
                     content = content + chargeRuleLogs[index].content;
                 });

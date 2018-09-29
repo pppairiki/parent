@@ -81,31 +81,38 @@ public class UserController {
 
     @RequestMapping(value="doSignUp",method=RequestMethod.POST)
     public String doSignUp(@RequestBody String jsonStr) {
-        JsonObject json = JsonUtil.string2Json(jsonStr);
-        JsonObject retJson = new JsonObject();
-        if (json == null) {
-            return JsonUtil.newFailureJson("request json is null!").toString();
-        }
-        String name = JsonUtil.getString(json, "name");
-        String account = JsonUtil.getString(json, "account");
-        String password = JsonUtil.getString(json, "password");
-        if (StringUtil.isNullOrEmpty(name)) {
-            return JsonUtil.newFailureJson("please type in name!").toString();
-        }
-        if (StringUtil.isNullOrEmpty(account)) {
-            return JsonUtil.newFailureJson("please type in account!").toString();
-        }
-        if (StringUtil.isNullOrEmpty(password)) {
-            return JsonUtil.newFailureJson("please type in password!").toString();
-        }
-        User UserObj = new User();
-        UserObj.setName(name);
-        UserObj.setAccount(account);
-        UserObj.setPassword(password);
-        int ret = UserLogicService.signUp(UserObj);
-        if (ret > 0) {
-            return JsonUtil.newSucessJson("sucessful").toString();
-        } else {
+        try{
+            log.debug("doSignUp json is :"+jsonStr);
+            JsonObject json = JsonUtil.string2Json(jsonStr);
+            JsonObject retJson = new JsonObject();
+            if (json == null) {
+                log.debug("doSignUp json is null!");
+                return JsonUtil.newFailureJson("request json is null!").toString();
+            }
+            String name = JsonUtil.getString(json, "name");
+            String account = JsonUtil.getString(json, "account");
+            String password = JsonUtil.getString(json, "password");
+            if (StringUtil.isNullOrEmpty(name)) {
+                return JsonUtil.newFailureJson("please type in name!").toString();
+            }
+            if (StringUtil.isNullOrEmpty(account)) {
+                return JsonUtil.newFailureJson("please type in account!").toString();
+            }
+            if (StringUtil.isNullOrEmpty(password)) {
+                return JsonUtil.newFailureJson("please type in password!").toString();
+            }
+            User UserObj = new User();
+            UserObj.setName(name);
+            UserObj.setAccount(account);
+            UserObj.setPassword(password);
+            int ret = UserLogicService.signUp(UserObj);
+            if (ret > 0) {
+                return JsonUtil.newSucessJson("sucessful").toString();
+            } else {
+                return JsonUtil.newFailureJson("sign up failure!").toString();
+            }
+        }catch (Exception e){
+            log.debug("doSignUp exception:",e);
             return JsonUtil.newFailureJson("sign up failure!").toString();
         }
     }

@@ -48,6 +48,29 @@ public class FileController {
         return retJson.toString();
     }
 
+    @RequestMapping(value="getPublicFile",method= RequestMethod.POST)
+    public String getPublicFileList(@RequestBody String jsonStr,HttpServletRequest request){
+        JsonObject json = JsonUtil.string2Json(jsonStr);
+        if(json == null){
+            return JsonUtil.newFailureJson("request json is null!").toString();
+        }
+        int pageNum = JsonUtil.getInt(json,"pageNum",1);
+        int pageSize = JsonUtil.getInt(json,"pageSize",5);
+        //List<CCFile> fileList = Consumer.getFileService().getFileList(userId, pageNum, pageSize);
+        Page<CCFile> page = Consumer.getFileService().getPublicFilePage(pageNum, pageSize);
+        List<CCFile> fileList = page.getList();
+        if(CollectionUtils.isEmpty(fileList)){
+            return JsonUtil.newFailureJson("result is null!").toString();
+        }
+        //log.debug(fileList);
+        JsonObject retJson = JsonUtil.newSucessJson("sucessful");
+        JsonArray ja = FileLogicService.parseList(fileList);
+        retJson.add("list",ja);
+        retJson.addProperty("allTotal",page.getAllTotal());
+        retJson.addProperty("pageSize",page.getPageSize());
+        return retJson.toString();
+    }
+
     @RequestMapping(value="getFile",method= RequestMethod.POST)
     public String getFile(@RequestBody String jsonStr,HttpServletRequest request){
         try {
@@ -55,7 +78,7 @@ public class FileController {
             if(json == null){
                 return JsonUtil.newFailureJson("request json is null!").toString();
             }
-            int userId = (int)request.getAttribute("userId");
+            //int userId = (int)request.getAttribute("userId");
             int id = JsonUtil.getInt(json,"id");
             CCFile file = Consumer.getFileService().getFile(id);
             if(file == null){
@@ -133,9 +156,9 @@ public class FileController {
             String reqtoken = JsonUtil.getString(json, "reqtoken");
             if(TokenUtil.isFirstRequest(reqtoken)){
                 boolean isPrivateb = JsonUtil.getBoolean(json, "isPrivate");
-                int isPrivate = 0;
+                int isPrivate = 1;
                 if(!isPrivateb){
-                    isPrivate =  1;
+                    isPrivate =  0;
                 }
                 if (StringUtil.isNullOrEmpty(name)) {
                     return JsonUtil.newFailureJson("please type in name!").toString();
@@ -173,9 +196,9 @@ public class FileController {
             String name = JsonUtil.getString(json, "title");
             String summary = JsonUtil.getString(json, "summary");
             boolean isPrivateb = JsonUtil.getBoolean(json, "isPrivate");
-            int isPrivate = 0;
+            int isPrivate = 1;
             if(!isPrivateb){
-                isPrivate =  1;
+                isPrivate =  0;
             }
             if (StringUtil.isNullOrEmpty(name)) {
                 return JsonUtil.newFailureJson("please type in name!").toString();

@@ -34,7 +34,6 @@
     <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="js/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
 
-
     <!-- script
    ================================================== -->
     <script src="js/modernizr.js"></script>
@@ -52,27 +51,35 @@
         #jqhtml { width: 700px; margin: 0 auto; font-size: 0;}
         #jqhtml li { display: inline-block; width: 32%; margin-left: 1%; padding-top: 1%;}
         #jqhtml li img { width: 100%;}
+        #content {
+            background-color: #cc85d9;
+            width: 100%;
+            position: absolute;
+            top: 50px;
+            bottom: 0px;
+            left: 0px;
+        }
     </style>
 </head>
 
-<body id="top">
+<body id="top" style="background-color: #f5f6f7">
 
     <!-- header 
    ================================================== -->
-   <header id="header" class="row">
+   <header id="header" class="row" style="background-color: black ">
 
    		<div class="header-logo">
 	        <a href="index.html">CCPourtoujours</a>
 	    </div>
 
-	   	<nav id="header-nav-wrap">
+	   	<nav id="header-nav-wrap" >
 			<ul class="header-main-nav">
 				<li class="current"><a class="smoothscroll"  href="#home" title="home">Home</a></li>
                 <li><a class="smoothscroll"  href="#love" title="sweet" onclick="goLove()">Sweet</a></li>
-                <li><a class="smoothscroll"  href="#note" title="note">Note</a></li>
+                <li><a class="smoothscroll"  href="#note" title="note">Article</a></li>
 				<li><a class="smoothscroll"  href="#gallery" title="pricing">Gallery</a></li>
-				<li><a class="smoothscroll"  href="#testimonials" title="testimonials">Testimonials</a></li>
-				<li><a class="smoothscroll"  href="#download" title="download">Download</a></li>	
+				<li><a class="smoothscroll"  href="#newfile" title="new file" onclick="newFile()">New file</a></li>
+				<li><a class="smoothscroll"  href="#newgallery" title="new gallery" onclick="newGallery()">New gallery</a></li>
 			</ul>
             <a id = "log_in" title="log-in" class="button button-primary cta" onclick="login()">Login</a>
             <a id = "user_info" title="User-info" class="smoothscroll" ></a>
@@ -86,16 +93,14 @@
 
    <!-- home
    ================================================== -->
-   <section id="home" data-parallax="scroll" data-image-src="images/hero-bg.jpg" data-natural-width=3000 data-natural-height=2000>
-
-        <div class="overlay"></div>
-        <div class="home-content">        
-
-            <div class="row contents">                     
-                <div class="home-content-left">
-                    <h3 data-aos="fade-up">In me, past, present, future meet</h3>
-                    <h4 style="color:white" data-aos="fade-up">Siegfried Sassoon</h4>
-                    <h5 style="color:white" data-aos="fade-up">
+   <section id="home" data-parallax="scroll" data-natural-width=3000 data-natural-height=2000>
+        <!--<div class="overlay"></div>-->
+        <div class="home-content">
+            <div class="row contents" style="background-color:white">
+                <div class="home-content-left" >
+                    <h3 data-aos="fade-up" style="color:black">In me, past, present, future meet</h3>
+                    <h4 style="color:gray" data-aos="fade-up">Siegfried Sassoon</h4>
+                    <h5 style="color:black" data-aos="fade-up">
                         In me, past, present, future meet<br>
                         To hold long chiding conference.<br>
                         My lusts usurp the present tense<br>
@@ -108,88 +113,50 @@
                         In me the tiger sniffs the rose.<br>
                         Look in my heart, kind friends, and tremble,<br>
                         Since there your elements assemble
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
                     </h5>
-
-                    <!--<div class="buttons" data-aos="fade-up">
-                        <a href="#download" class="smoothscroll button stroke">
-                            <span class="icon-circle-down" aria-hidden="true"></span>
-                            Download App
-                        </a>
-                        <a href="http://player.vimeo.com/video/14592941?title=0&amp;byline=0&amp;portrait=0&amp;color=39b54a" data-lity class="button stroke">
-                            <span class="icon-play" aria-hidden="true"></span>
-                            Watch Video
-                        </a>
-                    </div>   -->
-
                 </div>
-
-                <!--<div class="home-User-right">
-                    <img src="Users/iphone-app-470.png"
-                        srcset="Users/iphone-app-470.png 1x, Users/iphone-app-940.png 2x"
-                        data-aos="fade-up">
-                </div>-->
+                <div class="home-image-right">
+                    <img src="images/tiger.jpg" data-aos="fade-up">
+                </div>
             </div>
-
         </div> <!-- end home-content -->
-
-        <!--<ul class="home-social-list">
-            <li>
-                <a href="#"><i class="fa fa-facebook-square"></i></a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-instagram"></i></a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-youtube-play"></i></a>
-            </li>
-        </ul>-->
-        <!-- end home-social-list -->
-
         <div class="home-scrolldown">
-            <a href="#about" class="scroll-icon smoothscroll">
+            <a href="#home" class="scroll-icon smoothscroll">
                 <span>Scroll Down</span>
                 <i class="icon-arrow-right" aria-hidden="true"></i>
             </a>
         </div>
-
-    </section> <!-- end home -->  
+    </section> <!-- end home -->
 
 
     <!-- about
     ================================================== -->
     <section id="note">
-        <div class="row about-intro">
+        <div class="row about-intro" style="background-color: white">
             <div class="col-four">
-                <h1 style="color: snow" class="intro-header" data-aos="fade-up">Note</h1>
+                <h1 style="color: black" class="intro-header" data-aos="fade-up">Article</h1>
             </div>
             <div class="col-eight">
                 <p class="lead" data-aos="fade-up">
                     点 滴
                 </p>
-                <li><a class="smoothscroll" id = "t_new_file" onclick="newFile()">New File</a></li>
             </div>
         </div>
-        <div class="row about-features">
+        <div class="row about-features" style="background-color: white">
 <!--            <ul id="jqhtml">
                 <li><img src="http://www.ccpourtoujours.com/static/note-dubbo.jpg" alt="dubbo笔记">dubbo笔记</li>
                 <li><img src="http://www.ccpourtoujours.com/static/note-nginx.jpg" alt="nginx笔记">nginx笔记</li>
             </ul>-->
-            <table>
-                <thead>
-                    <th style="color: white" width="50%">标题</th>
-                    <th style="color: white" width="15%">作者</th>
-                    <th style="color: white"width="20%">创建时间</th>
-                    <th style="color: white"width="15%">操作</th>
-                </thead>
-                <tbody id="t_body_file" class="table_node" style="color: white">
-                    <tr class="tr_node" style="color: white">
+            <ul id = "file_ul" class = "file_ul" style="list-style-type:none">
 
-                    </tr>
-                </tbody>
-            </table>
+            </ul>
             <div class="com_list_foot" style="text-align: right;">
                 <div class="dataTables_paginate paging_simple_numbers" id="sample_2_paginate">
                     <ul class="pagination" id="Pagination" style="margin:0;">
@@ -204,23 +171,23 @@
     <!-- pricing
     ================================================== -->
     <section id="gallery">
-        <div class="row about-intro">
+        <div class="row about-intro" style="background-color: white">
             <div class="col-four">
-                <h1 style="color: snow" class="intro-header" data-aos="fade-up">Gallery</h1>
+                <h1 style="color: black" class="intro-header" data-aos="fade-up">Gallery</h1>
             </div>
             <div class="col-eight">
                 <p class="lead" data-aos="fade-up">
                     瞬 间
                 </p>
-                <li><a class="smoothscroll" id = "t_new_gallery" onclick="newGallery()">New Gallery</a></li>
+                <!--<li><a class="smoothscroll" id = "t_new_gallery" onclick="newGallery()">New Gallery</a></li>-->
             </div>
         </div>
-        <div class="row about-features">
-            <!--            <ul id="jqhtml">
+        <div class="row about-features" style="background-color: white">
+                        <ul id="jqhtml">
                             <li><img src="http://www.ccpourtoujours.com/static/note-dubbo.jpg" alt="dubbo笔记">dubbo笔记</li>
                             <li><img src="http://www.ccpourtoujours.com/static/note-nginx.jpg" alt="nginx笔记">nginx笔记</li>
-                        </ul>-->
-            <table>
+                        </ul>
+           <!-- <table>
                 <thead>
                 <th style="color: white" >title</th>
                 <th style="color: white">author</th>
@@ -231,7 +198,7 @@
 
                 </tr>
                 </tbody>
-            </table>
+            </table>-->
         </div>
 
         </div>
@@ -343,13 +310,6 @@
                 <div class="col-six md-1-3 tab-1-2 mob-full footer-contact">
 
                     <h4>Contact</h4>
-
-                   <!-- <p>
-                    1600 Amphitheatre Parkway<br>
-                    Mountain View, CA <br>
-                    94043 US<br>		        
-                    </p>-->
-
                     <p>
                     pppai.riki@gmail.com <br>
                     pppai.riki@foxmail.com
@@ -452,63 +412,85 @@
         }();
         var onceFlag = false;
         window.onload = function () {
+            if(os.isAndroid || os.isPhone){
+                document.getElementById("home").style.height="1300px";
+            }else{
+                document.getElementById("home").style.height="auto";
+            }
             onceFlag = true;
             getFile(1);
             getGallery();
         }
+
         function getFile(nowPage) {
             nowPage = nowPage || 1; //默认第一页
             var data =  new Object();
             data.account = userInfo.account;
             data.pageNum = nowPage;
             data.token = tools.getStorage(userInfo.id+"_token");
+            var url = "getFileList";
+            if(data.token == null || data.token == undefined || data.token == ""){
+                url = "getPublicFile";
+            }
             $.ajax({
                 type : "POST",
                 contentType : "application/json;cherset=utf-8",
-                url : "getFileList",
+                url : url,
                 data : JSON.stringify(data),
                 dataType : 'json',
                 timeout : 100000,
                 success : function(data) {
-                    $('.table_node').empty();
-                    var chargeRuleLogs = data.list;
-                    $.each(chargeRuleLogs, function (index, n) {
-                        var rowTr = document.createElement('tr')
-                        //找到html的tr节点
-                        rowTr.className = "tr_node"
-                        var child;
-                        //将要展示的信息写入页面
-                        if(os.isAndroid || os.isPhone){
-                            child = "<td><a href=\"http://www.ccpourtoujours.com/filephone.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name + "\">" + chargeRuleLogs[index].name +  "</a></td>"
-                                + "<td>" + chargeRuleLogs[index].createname + "</td>"
-                                + "<td>" + chargeRuleLogs[index].createtime + "</td>"
-                                + "<td><a href=\"javascript:;\" class=\"file_del\" data-id="+chargeRuleLogs[index].id+">删除</a></td>";
-                        }else{
-                            child = "<td><a href=\"http://www.ccpourtoujours.com/file.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name + "\">" + chargeRuleLogs[index].name +  "</a></td>"
-                                + "<td>" + chargeRuleLogs[index].createname + "</td>"
-                                + "<td>" + chargeRuleLogs[index].createtime + "</td>"
-                                + "<td><a href=\"javascript:;\" class=\"file_del\" data-id="+chargeRuleLogs[index].id+">删除</a></td>";
+                    if(data.retCode == 0){
+                        var chargeRuleLogs = data.list;
+                        var div = document.getElementById("file_ul");
+                        while(div.hasChildNodes()){
+                            div.removeChild(div.firstChild);
                         }
-                        rowTr.innerHTML = child
-                        //将信息追加
-                        $(".table_node").append(rowTr)
-                    });
-                    if(onceFlag){
-                        $("#Pagination").pagination(data.allTotal, {
-                            'prev_text' : "<",
-                            'next_text' : ">",
-                            'items_per_page' : data.pageSize,
-                            'num_display_entries' : 4,
-                            'num_edge_entries' : 1,
-                            'callback' : function(thisPage,pagination){
-                                if(onceFlag){
-                                    onceFlag = false;
-                                }else{
-                                    getFile(thisPage+1);
-                                }
-                            },
-                            'current_page' : nowPage<=1 ? 0 : nowPage-1
+                        $.each(chargeRuleLogs, function (index, n) {
+                            var innerhtml;
+                            if(os.isAndroid || os.isPhone){
+                                innerhtml =
+                                    "<li style='list-style-type:none;border-bottom: 1px solid #f4f4f4;'>"
+                                    +"<a href=\"http://www.ccpourtoujours.com/filephone.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name + "\">"
+                                    +"<h4>"+chargeRuleLogs[index].name +"</h4>"
+                                    +"</a>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createname + "</dd>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createtime + "</dd>"
+                                    +"<dd style='display: inline'><a href=\"javascript:;\" class=\"file_del\" data-id="+chargeRuleLogs[index].id+">删除</a></dd>"
+                                    +"</li>";
+                            }else{
+                                innerhtml =
+                                    "<li style='list-style-type:none;border-bottom: 1px solid #f4f4f4;'>"
+                                    +"<a href=\"http://www.ccpourtoujours.com/file.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name + "\">"
+                                    +"<h4>"+chargeRuleLogs[index].name +"</h4>"
+                                    +"</a>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createname + "</dd>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createtime + "</dd>"
+                                    +"<dd style='display: inline'><a href=\"javascript:;\" class=\"file_del\" data-id="+chargeRuleLogs[index].id+">删除</a></dd>"
+                                    +"</li>";
+                            }
+                            $(".file_ul").append(innerhtml);
                         });
+
+                        if(onceFlag){
+                            $("#Pagination").pagination(data.allTotal, {
+                                'prev_text' : "<",
+                                'next_text' : ">",
+                                'items_per_page' : data.pageSize,
+                                'num_display_entries' : 4,
+                                'num_edge_entries' : 1,
+                                'callback' : function(thisPage,pagination){
+                                    if(onceFlag){
+                                        onceFlag = false;
+                                    }else{
+                                        getFile(thisPage+1);
+                                    }
+                                },
+                                'current_page' : nowPage<=1 ? 0 : nowPage-1
+                            });
+                        }
+                    }else{
+                        logout();
                     }
                 },
                 error : function(e) {
@@ -520,6 +502,9 @@
                 }
             });
         }
+
+
+
         function  getGallery() {
             var data =  new Object();
             data.account = userInfo.account;
@@ -621,7 +606,7 @@
         }
 
         <!--del-->
-        $('#t_body_file').on('click', '.file_del', function(){
+        $('#file_ul').on('click', '.file_del', function(){
             var id = $(this).attr("data-id");
             var data =  new Object();
             data.id = id;

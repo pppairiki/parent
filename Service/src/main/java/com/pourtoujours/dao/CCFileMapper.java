@@ -25,4 +25,6 @@ public interface CCFileMapper {
     List<CCFile> getAllList();
 
     List<CCFile> getListByUser(int userId);
+
+    List<CCFile> getPublicFileList();
 }

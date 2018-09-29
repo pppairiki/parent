@@ -28,8 +28,14 @@ public class LoginInterceptor implements HandlerInterceptor {
                return true;
            } else if (uri.contains(".")){
                return true;
-           }else if("/doLogin".equals(uri)){
+           }else if("/getPublicFile".equals(uri)){
+               return true;
+           }else if("/getFile".equals(uri)){
                    return true;
+           }else if("/doLogin".equals(uri)){
+               return true;
+           }else if("/doSignUp".equals(uri)){
+               return true;
            }else if("/logout".equals(uri)){
                Cookie[] cookies = request.getCookies();
                Cookie sidCookie = null;

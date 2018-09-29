@@ -28,6 +28,10 @@
   <select id="getAllList" resultMap="BaseResultMap" >
     select * from t_file
   </select>
+  <select id="getPublicFileList" resultMap="BaseResultMap" >
+    select * from t_file
+    where visable = 1 and isPrivate = 0
+  </select>
   <select id="getListByUser" resultMap="BaseResultMap" >
     select * from t_file
     where visable = 1 and createrId = #{userId,jdbcType=INTEGER}

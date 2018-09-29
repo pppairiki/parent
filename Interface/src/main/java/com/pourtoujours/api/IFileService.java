@@ -24,4 +24,6 @@ public interface IFileService {
     Page<CCFile> getFilePage(int userId, int pageNum, int pageSize);
 
     CCFile getFile(int id);
+
+    Page<CCFile> getPublicFilePage(int pageNum, int pageSize);
 }

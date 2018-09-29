@@ -73,6 +73,7 @@
         var title = document.getElementById("title_input").value;
         var content = editor.$txt.html();
         var data = new Object();
+        data.reqtoken = reqtoken;
         data.title = title;
         data.content = content;
         data.isPrivate = document.getElementById("cb_isprivate").checked;
