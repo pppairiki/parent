@@ -44,21 +44,13 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="/js/plugins/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/viewer.min.css">
-    <script src="js/plugins/viewer.min.js"></script>
+    <link rel="stylesheet" href="/css/viewer.min.css">
+
     <style>
         * { margin: 0; padding: 0;}
         #jqhtml { width: 700px; margin: 0 auto; font-size: 0;}
         #jqhtml li { display: inline-block; width: 32%; margin-left: 1%; padding-top: 1%;}
         #jqhtml li img { width: 100%;}
-        #content {
-            background-color: #cc85d9;
-            width: 100%;
-            position: absolute;
-            top: 50px;
-            bottom: 0px;
-            left: 0px;
-        }
     </style>
 </head>
 
@@ -150,10 +142,19 @@
             </div>
         </div>
         <div class="row about-features" style="background-color: white">
-<!--            <ul id="jqhtml">
-                <li><img src="http://www.ccpourtoujours.com/static/note-dubbo.jpg" alt="dubbo笔记">dubbo笔记</li>
-                <li><img src="http://www.ccpourtoujours.com/static/note-nginx.jpg" alt="nginx笔记">nginx笔记</li>
-            </ul>-->
+            <!--<input type="checkbox" id="cb_ispublic" onchange="checkChange()" checked="true">显示公开文章</input>-->
+            <div class="col-sm-9">
+                <label class="radio-inline">
+                    <input name="fileAuth" class="fileAuth" data-txt="公开文章" value="1" type="radio" checked="checked">公开文章
+                </label>
+                <label class="radio-inline">
+                    <input name="fileAuth" class="fileAuth" data-txt="我的文章" value="2" type="radio" >我的文章
+                </label>
+                <label class="radio-inline">
+                    <input name="fileAuth" class="fileAuth" data-txt="对我可见" value="3" type="radio" >对我可见
+                </label>
+            </div>
+            <br>
             <ul id = "file_ul" class = "file_ul" style="list-style-type:none">
 
             </ul>
@@ -183,10 +184,11 @@
             </div>
         </div>
         <div class="row about-features" style="background-color: white">
-                        <ul id="jqhtml">
-                            <li><img src="http://www.ccpourtoujours.com/static/note-dubbo.jpg" alt="dubbo笔记">dubbo笔记</li>
-                            <li><img src="http://www.ccpourtoujours.com/static/note-nginx.jpg" alt="nginx笔记">nginx笔记</li>
-                        </ul>
+                <ul id="jqhtml">
+                    <li><img src="http://www.ccpourtoujours.com/static/note-dubbo.jpg" alt="dubbo笔记">dubbo笔记</li>
+                    <li><img src="http://www.ccpourtoujours.com/static/note-nginx.jpg" alt="nginx笔记">nginx笔记</li>
+                </ul>
+
            <!-- <table>
                 <thead>
                 <th style="color: white" >title</th>
@@ -379,6 +381,8 @@
     <script src="js/main.js"></script>
     <script src="js/tools.js"></script>
     <script type="text/javascript" src="js/plugins/jquery.pagination.js"></script>
+    <script src="/js/plugins/viewer.min.js"></script>
+    <script src="js/plugins/viewer-jquery.min.js"></script>
     <!--    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
     <script type="text/javascript">
         window.tools = new Tools();
@@ -418,9 +422,34 @@
                 document.getElementById("home").style.height="auto";
             }
             onceFlag = true;
-            getFile(1);
+            getPublicFile(1);
             getGallery();
         }
+        
+        /*function checkChange() {
+            if($('#cb_ispublic').prop('checked')){
+                getPublicFile(1);
+            }else{
+                getFile(1);
+            }
+        }*/
+
+        $('.fileAuth').change(function(){
+            var fileAuth =  $("input[name='fileAuth']:checked").val();
+            var tml = [];
+            if(fileAuth == 1){//公开
+                onceFlag = true;
+                getPublicFile(1);
+            }else if(fileAuth == 2){//我的
+                onceFlag = true;
+                getFile(1);
+            }else if(fileAuth == 3){//对我可见
+                onceFlag = true;
+                getShowMeFile(1);
+            }else{      //如果没有选，默认就隐藏
+                alert("fileAuth == other");
+            }
+        });
 
         function getFile(nowPage) {
             nowPage = nowPage || 1; //默认第一页
@@ -429,8 +458,9 @@
             data.pageNum = nowPage;
             data.token = tools.getStorage(userInfo.id+"_token");
             var url = "getFileList";
-            if(data.token == null || data.token == undefined || data.token == ""){
-                url = "getPublicFile";
+            var div = document.getElementById("file_ul");
+            while(div.hasChildNodes()){
+                div.removeChild(div.firstChild);
             }
             $.ajax({
                 type : "POST",
@@ -442,16 +472,12 @@
                 success : function(data) {
                     if(data.retCode == 0){
                         var chargeRuleLogs = data.list;
-                        var div = document.getElementById("file_ul");
-                        while(div.hasChildNodes()){
-                            div.removeChild(div.firstChild);
-                        }
                         $.each(chargeRuleLogs, function (index, n) {
                             var innerhtml;
                             if(os.isAndroid || os.isPhone){
                                 innerhtml =
-                                    "<li style='list-style-type:none;border-bottom: 1px solid #f4f4f4;'>"
-                                    +"<a href=\"http://www.ccpourtoujours.com/filephone.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name + "\">"
+                                    "<li style='list-style-type:none;display: inline;border-bottom: 1px solid #f4f4f4;'>"
+                                    +"<a href=\"http://www.ccpourtoujours.com/filephone.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name +"&able=" +chargeRuleLogs[index].ableEdit+ "\">"
                                     +"<h4>"+chargeRuleLogs[index].name +"</h4>"
                                     +"</a>"
                                     +"<dd style='display: inline'>" + chargeRuleLogs[index].createname + "</dd>"
@@ -460,8 +486,8 @@
                                     +"</li>";
                             }else{
                                 innerhtml =
-                                    "<li style='list-style-type:none;border-bottom: 1px solid #f4f4f4;'>"
-                                    +"<a href=\"http://www.ccpourtoujours.com/file.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name + "\">"
+                                    "<li style='list-style-type:none;display: inline;border-bottom: 1px solid #f4f4f4;'>"
+                                    +"<a href=\"http://www.ccpourtoujours.com/file.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name +"&able=" +chargeRuleLogs[index].ableEdit + "\">"
                                     +"<h4>"+chargeRuleLogs[index].name +"</h4>"
                                     +"</a>"
                                     +"<dd style='display: inline'>" + chargeRuleLogs[index].createname + "</dd>"
@@ -489,8 +515,6 @@
                                 'current_page' : nowPage<=1 ? 0 : nowPage-1
                             });
                         }
-                    }else{
-                        logout();
                     }
                 },
                 error : function(e) {
@@ -503,6 +527,153 @@
             });
         }
 
+        function getPublicFile(nowPage) {
+            nowPage = nowPage || 1; //默认第一页
+            var data =  new Object();
+            data.pageNum = nowPage;
+            var url = "getPublicFile";
+            var div = document.getElementById("file_ul");
+            while(div.hasChildNodes()){
+                div.removeChild(div.firstChild);
+            }
+            $.ajax({
+                type : "POST",
+                contentType : "application/json;cherset=utf-8",
+                url : url,
+                data : JSON.stringify(data),
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    if(data.retCode == 0){
+                        var chargeRuleLogs = data.list;
+                        $.each(chargeRuleLogs, function (index, n) {
+                            var innerhtml;
+                            if(os.isAndroid || os.isPhone){
+                                innerhtml =
+                                    "<li style='list-style-type:display: inline;none;border-bottom: 1px solid #f4f4f4;'>"
+                                    +"<a href=\"http://www.ccpourtoujours.com/filephone.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name +"&able=" +chargeRuleLogs[index].ableEdit + "\">"
+                                    +"<h4>"+chargeRuleLogs[index].name +"</h4>"
+                                    +"</a>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createname + "</dd>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createtime + "</dd>"
+                                    +"</li>";
+                            }else{
+                                innerhtml =
+                                    "<li style='list-style-type:none;display: inline;border-bottom: 1px solid #f4f4f4;'>"
+                                    +"<a href=\"http://www.ccpourtoujours.com/file.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name +"&able=" +chargeRuleLogs[index].ableEdit + "\">"
+                                    +"<h4>"+chargeRuleLogs[index].name +"</h4>"
+                                    +"</a>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createname + "</dd>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createtime + "</dd>"
+                                    +"</li>";
+                            }
+                            $(".file_ul").append(innerhtml);
+                        });
+
+                        if(onceFlag){
+                            $("#Pagination").pagination(data.allTotal, {
+                                'prev_text' : "<",
+                                'next_text' : ">",
+                                'items_per_page' : data.pageSize,
+                                'num_display_entries' : 4,
+                                'num_edge_entries' : 1,
+                                'callback' : function(thisPage,pagination){
+                                    if(onceFlag){
+                                        onceFlag = false;
+                                    }else{
+                                        getPublicFile(thisPage+1);
+                                    }
+                                },
+                                'current_page' : nowPage<=1 ? 0 : nowPage-1
+                            });
+                        }
+                    }else{
+                        //logout();
+                    }
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                    display(e);
+                },
+                done : function(e) {
+                    console.log("DONE");
+                }
+            });
+        }
+
+        function getShowMeFile(nowPage) {
+            nowPage = nowPage || 1; //默认第一页
+            var data =  new Object();
+            data.pageNum = nowPage;
+            var url = "getShowMeFile";
+            var div = document.getElementById("file_ul");
+            while(div.hasChildNodes()){
+                div.removeChild(div.firstChild);
+            }
+            $.ajax({
+                type : "POST",
+                contentType : "application/json;cherset=utf-8",
+                url : url,
+                data : JSON.stringify(data),
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    if(data.retCode == 0){
+                        var chargeRuleLogs = data.list;
+                        $.each(chargeRuleLogs, function (index, n) {
+                            var innerhtml;
+                            if(os.isAndroid || os.isPhone){
+                                innerhtml =
+                                    "<li style='list-style-type:none;display: inline;border-bottom: 1px solid #f4f4f4;'>"
+                                    +"<a href=\"http://www.ccpourtoujours.com/filephone.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name +"&able=" +chargeRuleLogs[index].ableEdit + "\">"
+                                    +"<h4>"+chargeRuleLogs[index].name +"</h4>"
+                                    +"</a>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createname + "</dd>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createtime + "</dd>"
+                                    +"</li>";
+                            }else{
+                                innerhtml =
+                                    "<li style='list-style-type:none;display: inline;border-bottom: 1px solid #f4f4f4;'>"
+                                    +"<a href=\"http://www.ccpourtoujours.com/file.html?id="+chargeRuleLogs[index].id+"&title=" +chargeRuleLogs[index].name +"&able=" +chargeRuleLogs[index].ableEdit + "\">"
+                                    +"<h4>"+chargeRuleLogs[index].name +"</h4>"
+                                    +"</a>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createname + "</dd>"
+                                    +"<dd style='display: inline'>" + chargeRuleLogs[index].createtime + "</dd>"
+                                    +"</li>";
+                            }
+                            $(".file_ul").append(innerhtml);
+                        });
+
+                        if(onceFlag){
+                            $("#Pagination").pagination(data.allTotal, {
+                                'prev_text' : "<",
+                                'next_text' : ">",
+                                'items_per_page' : data.pageSize,
+                                'num_display_entries' : 4,
+                                'num_edge_entries' : 1,
+                                'callback' : function(thisPage,pagination){
+                                    if(onceFlag){
+                                        onceFlag = false;
+                                    }else{
+                                        getPublicFile(thisPage+1);
+                                    }
+                                },
+                                'current_page' : nowPage<=1 ? 0 : nowPage-1
+                            });
+                        }
+                    }else{
+                        //logout();
+                    }
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                    display(e);
+                },
+                done : function(e) {
+                    console.log("DONE");
+                }
+            });
+        }
 
 
         function  getGallery() {

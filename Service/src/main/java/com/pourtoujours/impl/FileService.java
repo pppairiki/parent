@@ -6,15 +6,19 @@ import com.pourtoujours.base.Provider;
 import com.pourtoujours.common.Page;
 import com.pourtoujours.dao.CCFileContentMapper;
 import com.pourtoujours.dao.CCFileMapper;
+import com.pourtoujours.dao.FileAuthMapper;
 import com.pourtoujours.enums.Visable;
 import com.pourtoujours.model.CCFile;
 import com.pourtoujours.model.CCFileContent;
+import com.pourtoujours.model.FileAuth;
 import com.pourtoujours.util.StringUtil;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class FileService implements IFileService{
@@ -23,6 +27,8 @@ public class FileService implements IFileService{
     public CCFileMapper fileDao;
     @Resource
     public CCFileContentMapper fileContentDao;
+    @Resource
+    public FileAuthMapper fileAuthDao;
 
     public CCFile getFile(int id){
         return fileDao.selectByPrimaryKey(id);
@@ -185,6 +191,9 @@ public class FileService implements IFileService{
         }*/
         List<CCFile> list = fileDao.getListByUser(userId);
         List<CCFile> retlist = list.subList((pageIndex-1)*pageSize,pageIndex*pageSize > list.size() ? list.size(): pageIndex*pageSize);
+        for(CCFile file : retlist){
+            file.setAbleEdit(1);
+        }
         long allTotal = list.size(); //记录总数
         Page<CCFile> page = new Page<CCFile>();
         page.setList(retlist);
@@ -199,11 +208,46 @@ public class FileService implements IFileService{
         int startIndex = (pageIndex-1) * pageSize;
         List<CCFile> list = fileDao.getPublicFileList();
         List<CCFile> retlist = list.subList((pageIndex-1)*pageSize,pageIndex*pageSize > list.size() ? list.size(): pageIndex*pageSize);
+        for(CCFile file : retlist){
+            file.setAbleEdit(0);
+        }
         long allTotal = list.size(); //记录总数
         Page<CCFile> page = new Page<CCFile>();
         page.setList(retlist);
         page.setAllTotal((int)allTotal);
         page.setNowPage(pageIndex);
+        page.setPageSize(pageSize);
+        return page;
+    }
+
+    public Page<CCFile> getShowMeFilePage(int userId, int pageNum, int pageSize) throws Exception{
+        log.debug("FileService.getShowMeFilePage run userId"+userId+",pageIndex"+pageNum+",pageSize"+pageSize);
+        //校验
+        if(userId <= 0){
+            throw new Exception("user id in null");
+        }
+        //先获取权限
+        List<FileAuth> faList = fileAuthDao.getListByUser(userId);
+        if(CollectionUtils.isEmpty(faList)){
+            throw new Exception("file auth is null");
+        }
+        List<FileAuth> tFAList = faList.subList((pageNum-1)*pageSize,pageNum*pageSize > faList.size() ? faList.size(): pageNum*pageSize);
+        List<Integer> fileIdList = new ArrayList<Integer>();
+        HashMap<Integer,FileAuth> map = new HashMap<Integer, FileAuth>(8);
+        for(FileAuth fa : tFAList){
+            fileIdList.add(fa.getFileid());
+            map.put(fa.getFileid(),fa);
+        }
+        List<CCFile> list = fileDao.getShowMeFileList(fileIdList);
+        for(CCFile file : list){
+            file.setAbleEdit(1);
+            FileAuth fa = map.get(file.getId());
+            file.setAbleEdit(fa.getAbleedit());
+        }
+        Page<CCFile> page = new Page<CCFile>();
+        page.setList(list);
+        page.setAllTotal((int)faList.size());
+        page.setNowPage(pageNum);
         page.setPageSize(pageSize);
         return page;
     }

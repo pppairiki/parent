@@ -26,4 +26,6 @@ public interface IFileService {
     CCFile getFile(int id);
 
     Page<CCFile> getPublicFilePage(int pageNum, int pageSize);
+
+    Page<CCFile> getShowMeFilePage(int userId, int pageNum, int pageSize) throws Exception;
 }

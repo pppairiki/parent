@@ -66,7 +66,12 @@
         var data =  new Object();
         data.id = getQueryVariable("id");
         $('#hidden_id').val(data.id);
-
+        data.able = getQueryVariable("able");
+        if(data.able == 1){
+            $('#btn_edit').show();
+        }else{
+            $('#btn_edit').hide();
+        }
         var title = decodeURI(getQueryVariable("title"));
         $.ajax({
             type : "POST",

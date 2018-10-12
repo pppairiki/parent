@@ -22,6 +22,8 @@ public class CCFile implements Serializable {
 
     private Date createtime;
 
+    private Integer ableEdit;
+
     public Integer getId() {
         return id;
     }
@@ -92,5 +94,13 @@ public class CCFile implements Serializable {
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
+    }
+
+    public Integer getAbleEdit() {
+        return ableEdit;
+    }
+
+    public void setAbleEdit(Integer ableEdit) {
+        this.ableEdit = ableEdit;
     }
 }

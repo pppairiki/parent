@@ -79,7 +79,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                if(sidCookie == null){
                    response.setContentType("application/json");
                    response.setCharacterEncoding("UTF-8");
-                   response.getWriter().print( JsonUtil.newFailureJson("please login first!").toString());
+                   response.getWriter().print( JsonUtil.newLoginFailureJson("please login first!").toString());
                    response.getWriter().flush();
                    return  false;
                }
@@ -87,7 +87,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                if(session == null){
                    response.setContentType("application/json");
                    response.setCharacterEncoding("UTF-8");
-                   response.getWriter().print( JsonUtil.newFailureJson("login status is out of time,please login again!").toString());
+                   response.getWriter().print( JsonUtil.newLoginFailureJson("login status is out of time,please login again!").toString());
                    response.getWriter().flush();
                    return  false;
                }
@@ -95,7 +95,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                if(loginStatus != 1){
                    response.setContentType("application/json");
                    response.setCharacterEncoding("UTF-8");
-                   response.getWriter().print( JsonUtil.newFailureJson("the user has logout,please login again!").toString());
+                   response.getWriter().print( JsonUtil.newLoginFailureJson("the user has logout,please login again!").toString());
                    response.getWriter().flush();
                    return  false;
                }

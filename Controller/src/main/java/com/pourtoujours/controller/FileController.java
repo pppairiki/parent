@@ -71,6 +71,34 @@ public class FileController {
         return retJson.toString();
     }
 
+    @RequestMapping(value="getShowMeFile",method= RequestMethod.POST)
+    public String getShowMeFileList(@RequestBody String jsonStr,HttpServletRequest request){
+        try{
+            JsonObject json = JsonUtil.string2Json(jsonStr);
+            if(json == null){
+                return JsonUtil.newFailureJson("request json is null!").toString();
+            }
+            int pageNum = JsonUtil.getInt(json,"pageNum",1);
+            int pageSize = JsonUtil.getInt(json,"pageSize",5);
+            int userId = (int)request.getAttribute("userId");
+            Page<CCFile> page = Consumer.getFileService().getShowMeFilePage(userId, pageNum, pageSize);
+            List<CCFile> fileList = page.getList();
+            if(CollectionUtils.isEmpty(fileList)){
+                return JsonUtil.newFailureJson("result is null!").toString();
+            }
+            //log.debug(fileList);
+            JsonObject retJson = JsonUtil.newSucessJson("sucessful");
+            JsonArray ja = FileLogicService.parseList(fileList);
+            retJson.add("list",ja);
+            retJson.addProperty("allTotal",page.getAllTotal());
+            retJson.addProperty("pageSize",page.getPageSize());
+            return retJson.toString();
+        }catch (Exception e){
+            log.debug("getShowMeFile exception :",e);
+            return JsonUtil.newFailureJson("getShowMeFile exception").toString();
+        }
+    }
+
     @RequestMapping(value="getFile",method= RequestMethod.POST)
     public String getFile(@RequestBody String jsonStr,HttpServletRequest request){
         try {

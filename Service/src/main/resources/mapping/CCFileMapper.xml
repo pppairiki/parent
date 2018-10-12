@@ -158,4 +158,14 @@
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getShowMeFileList" resultMap="BaseResultMap">
+    SELECT *
+    FROM t_file
+    WHERE id in
+    <foreach item="item" index="index" collection="fileIdList"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
 </mapper>

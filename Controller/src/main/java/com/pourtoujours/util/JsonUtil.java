@@ -23,6 +23,13 @@ public class JsonUtil {
         return  retJson;
     }
 
+    public static JsonObject newLoginFailureJson(String msg){
+        JsonObject retJson = new JsonObject();
+        retJson.addProperty("retCode",-1);
+        retJson.addProperty("retMsg",msg);
+        return  retJson;
+    }
+
     public static JsonObject newSucessJson(String msg){
         JsonObject retJson = new JsonObject();
         retJson.addProperty("retCode",0);

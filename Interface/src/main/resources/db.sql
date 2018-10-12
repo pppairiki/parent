@@ -110,6 +110,29 @@ CREATE TABLE `t_image` (
   	`createTime` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4;
+--文件类别
+DROP TABLE IF EXISTS `t_file_class`;
+CREATE TABLE `t_file_class` (
+  	`id` int(11) NOT NULL AUTO_INCREMENT,
+	  `name` 	varchar(25) DEFAULT NULL COMMENT 'name',
+    `summary` 	varchar(60) DEFAULT NULL COMMENT 'summary',
+	  `createrId` int(11) DEFAULT 0 COMMENT '创建人id',
+    `createName` 	varchar(10) DEFAULT NULL COMMENT '创建人',
+    `isPrivate` int(11) DEFAULT 0 COMMENT '是否隐私文件 1-是，0-否',
+  	`visable` bigint(20) DEFAULT 1 COMMENT '是否有效 1有效 2无效',
+  	`remark` 	varchar(100) DEFAULT NULL COMMENT '备注',
+  	`createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4;
+--文件权限
+DROP TABLE IF EXISTS `t_file_auth`;
+CREATE TABLE `t_file_auth` (
+    `fileId` int(11) NOT NULL COMMENT 'file id',
+    `userId` int(11) NOT NULL COMMENT 'file id',
+    `ableView` int(11) DEFAULT 1 COMMENT '是否可见 1-是，0-否',
+    `ableEdit` int(11) DEFAULT 0 COMMENT '是否可编辑 1-是，0-否',
+  PRIMARY KEY (`fileId`,`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4;
 --文件表t_file
 DROP TABLE IF EXISTS `t_file`;
 CREATE TABLE `t_file` (
