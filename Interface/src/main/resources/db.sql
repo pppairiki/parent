@@ -137,7 +137,7 @@ CREATE TABLE `t_file_auth` (
 DROP TABLE IF EXISTS `t_file`;
 CREATE TABLE `t_file` (
   	`id` int(11) NOT NULL AUTO_INCREMENT,
-	  `name` 	varchar(25) DEFAULT NULL COMMENT 'name',
+	  `name` 	varchar(50) DEFAULT NULL COMMENT 'name',
     `summary` 	varchar(60) DEFAULT NULL COMMENT 'summary',
 	  `createrId` int(11) DEFAULT 0 COMMENT '创建人id',
     `createName` 	varchar(10) DEFAULT NULL COMMENT '创建人',
@@ -147,6 +147,7 @@ CREATE TABLE `t_file` (
   	`createTime` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4;
+alter table t_file modify column name varchar(50) ;
 --文件内容表t_file_content
 DROP TABLE IF EXISTS `t_file_content`;
 CREATE TABLE `t_file_content` (
